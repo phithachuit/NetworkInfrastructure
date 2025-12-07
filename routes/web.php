@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GeminiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +20,6 @@ use Illuminate\Support\Facades\Route;
 //     return [DashboardController::class, 'index'];
 // });
 
-Route::get('/', [App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index']);
+Route::get('/chatbot/send', [GeminiController::class, 'scanMessage']);
+Route::post('/chatbot/send', [GeminiController::class, 'sendMessage']);
