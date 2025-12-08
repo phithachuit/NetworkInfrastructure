@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\GeminiService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class GeminiController extends Controller
 {
@@ -23,49 +24,6 @@ class GeminiController extends Controller
         // $this->geminiService = $geminiService;
         $this->apiKey = env('GEMINI_API_KEY');
         $this->baseUrl = env('GEMINI_API_URL');
-
-        // 1. Xây dựng Prompt (Câu lệnh cho AI)
-        // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
-        $systemInstruction = "Bạn là một trợ lý ảo IT chuyên nghiệp của trường học. " .
-                             "Nhiệm vụ: Giải thích ngắn gọn lỗi kỹ thuật và đưa ra giải pháp khắc phục. " .
-                             "Nếu không biết, hãy nói cần liên hệ bộ phận IT.";
-
-        $prompt = "Người dùng đang gặp vấn đề với từ khóa: '{$userKeyword}'. \n";
-        
-        // Nếu bạn có dữ liệu lỗi từ Database (như bài trước), hãy nối vào đây để AI trả lời chính xác hơn
-        if ($contextData) {
-            $prompt .= "Dựa trên dữ liệu nội bộ sau đây để trả lời: " . $contextData;
-        }
-
-        // 2. Cấu trúc Request theo chuẩn Gemini API
-        $payload = [
-            "contents" => [
-                [
-                    "parts" => [
-                        ["text" => $systemInstruction . "\n\n" . $prompt]
-                    ]
-                ]
-            ]
-        ];
-
-        // 3. Gửi Request
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->post("{$this->baseUrl}?key={$this->apiKey}", $payload);
-
-            if ($response->successful()) {
-                $data = $response->json();
-                // Lấy nội dung text từ phản hồi phức tạp của Google
-                return $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Không có phản hồi.';
-            } else {
-                Log::error('Gemini API Error: ' . $response->body());
-                return "Hệ thống đang bận, vui lòng thử lại sau.";
-            }
-        } catch (\Exception $e) {
-            Log::error('Gemini Exception: ' . $e->getMessage());
-            return "Lỗi kết nối đến máy chủ AI.";
-        }
     }
 
     public function askGemini($userKeyword, $contextData = null)
@@ -73,8 +31,8 @@ class GeminiController extends Controller
         // 1. Xây dựng Prompt (Câu lệnh cho AI)
         // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
         $systemInstruction = "Bạn là một trợ lý ảo IT chuyên nghiệp của trường học. " .
-                             "Nhiệm vụ: Giải thích ngắn gọn lỗi kỹ thuật và đưa ra giải pháp khắc phục. " .
-                             "Nếu không biết, hãy nói cần liên hệ bộ phận IT.";
+                             "Nhiệm vụ: Giải thích ngắn gọn, dễ hiểu về lỗi kỹ thuật đó và đưa ra giải pháp khắc phục thật chi tiết càng tốt. " .
+                             "Cố gắng đưa ra các bước cụ thể để người dùng có thể tự khắc phục.";
 
         $prompt = "Người dùng đang gặp vấn đề với từ khóa: '{$userKeyword}'. \n";
         
@@ -138,6 +96,12 @@ class GeminiController extends Controller
         // BƯỚC B: Gửi cho Gemini xử lý ngôn ngữ tự nhiên
         // Gemini sẽ dùng keyword + context (nếu có) để viết thành câu trả lời hay hơn
         $botReply = $this->askGemini($keyword, $context);
+
+        // Chuyển đổi định dạng Markdown sang HTML để hiển thị đẹp hơn
+        $htmlContent = Str::markdown($botReply);
+
+        echo $htmlContent;
+        exit;
 
         return response()->json([
             'reply' => $botReply

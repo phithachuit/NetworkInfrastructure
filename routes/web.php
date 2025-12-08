@@ -22,4 +22,4 @@ use App\Http\Controllers\GeminiController;
 
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/chatbot/send', [GeminiController::class, 'scanMessage']);
-Route::post('/chatbot/send', [GeminiController::class, 'sendMessage']);
+Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
