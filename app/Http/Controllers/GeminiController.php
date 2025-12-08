@@ -100,7 +100,7 @@ class GeminiController extends Controller
                 'Content-Type' => 'application/json',
             ])->post("{$this->baseUrl}?key={$this->apiKey}", $payload);
 
-            dd($response);
+            // dd($response->body());
 
             if ($response->successful()) {
                 $data = $response->json();
