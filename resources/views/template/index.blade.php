@@ -419,12 +419,12 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto active" id="contacts" role="tabpanel">
-          <label class="sidebar-label pd-x-25 mg-t-25">Chatbot</label>
-          <div class="contact-list pd-x-10">
+          <!-- <label class="sidebar-label pd-x-25 mt-1">Chatbot</label> -->
+          <div class="contact-list pd-x-10 pos-relative h-100">
 
             <div class="form" method="post" action="{{ route('chatbot.send') }}">
-              <div class="form-group pos-md-absolute">
-                <input id="messageChat" name="messageChat" type="text" class="form-control " placeholder="Type a message..." />
+              <div class="form-group pos-md-absolute b-0 l-0 r-0">
+                <input id="messageChat" name="messageChat" type="text" class="form-control " placeholder="Nhắn với Chatbot..." />
                 <!-- <button class="btn"><i class="fa fa-paper-plane"></i></button> -->
               </div>
             </div>
