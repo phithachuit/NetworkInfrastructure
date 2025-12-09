@@ -372,8 +372,10 @@
           </div><!-- dropdown -->
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down">Katherine</span>
+              @auth
+              <span class="logged-name hidden-md-down">{{ Auth::user()->name }}</span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
+              @endauth
               <span class="square-10 bg-success"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
@@ -383,7 +385,7 @@
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
                 <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
-                <li><a href=""><i class="icon ion-power"></i> Sign Out</a></li>
+                <li><a href="{{ route('logout') }}"><i class="icon ion-power"></i> Sign Out</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
@@ -403,7 +405,12 @@
     <div class="br-sideright">
       <ul class="nav nav-tabs sidebar-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" role="tab" href="#contacts"><i class="icon ion-ios-contact-outline tx-24"></i></a>
+          <a class="nav-link active" data-toggle="tab" role="tab" href="#chatbot">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+                <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
+                <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+              </svg>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" role="tab" href="#attachments"><i class="icon ion-ios-folder-outline tx-22"></i></a>
@@ -416,21 +423,73 @@
         </li>
       </ul><!-- sidebar-tabs -->
 
+      <style>
+        .message-list {
+          margin-bottom: 60px;
+          height: 80vh;
+          /* overflow-y: auto; */
+          margin-bottom: 10px;
+        }
+
+        .message-list .message-bot{
+          display: flex;
+          align-items: flex-start;
+        }
+
+        .message-list .message-bot .message-bot-content {
+          background-color: #f1f0f0;
+          border-radius: 10px;
+          padding: 10px;
+          margin: 5px;
+          max-width: 100%;
+        }
+
+        .message-list .message-user {
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+          /* margin-bottom: 10px; */
+        }
+
+        .message-list .message-user .message-user-content {
+          background-color: #007bff;
+          color: white;
+          border-radius: 10px;
+          padding: 10px;
+          margin: 5px;
+          max-width: 100%;
+        }
+      </style>
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto active" id="contacts" role="tabpanel">
+        <div class="tab-pane pos-absolute a-0 mg-t-60 active" id="chatbot" role="tabpanel">
           <!-- <label class="sidebar-label pd-x-25 mt-1">Chatbot</label> -->
-          <div class="contact-list pd-x-10 pos-relative h-100">
+          <div class="chatbot-list pd-x-10 pos-relative">
 
-            <div class="form" method="post" action="{{ route('chatbot.send') }}">
-              <div class="form-group pos-md-absolute b-0 l-0 r-0">
-                <input id="messageChat" name="messageChat" type="text" class="form-control " placeholder="Nhắn với Chatbot..." />
+          <div class="message-list overflow-y-auto">
+            <!-- <div class="message-bot">
+              <div class="message-bot-content">
+                <p class="mb-0 text">Xin chào! Tôi là Chatbot của bạn. Tôi có thể giúp gì cho bạn?</p>
+              </div>
+            </div>
+
+            <div class="message-user">
+              <div class="message-user-content">
+                <p class="mb-0 text">Chào Chatbot! Hôm nay thời tiết thế nào?</p>
+              </div>
+            </div> -->
+          </div>
+
+            <div class="form" id="chatbotForm" method="post" action="{{ route('chatbot.send') }}">
+              @csrf
+              <div class="form-group b-0 mx-1">
+                <textarea id="messageChat" name="messageChat" type="text" class="form-control w-100" placeholder="Nhắn với Chatbot..."></textarea>
                 <!-- <button class="btn"><i class="fa fa-paper-plane"></i></button> -->
               </div>
             </div>
-          </div><!-- contact-list -->
+          </div><!-- chatbot-list -->
 
-        </div><!-- #contacts -->
+        </div><!-- #chatbot -->
 
 
         <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto" id="attachments" role="tabpanel">
@@ -660,6 +719,9 @@
     <script src="{{ Vite::asset('resources/js/bracket.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/ResizeSensor.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/dashboard.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/chatbot.js') }}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+
     <script>
       $(function(){
         'use strict'

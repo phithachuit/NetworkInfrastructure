@@ -27,6 +27,7 @@ export default defineConfig({
                 'resources/js/bracket.js',
                 'resources/js/ResizeSensor.js',
                 'resources/js/dashboard.js',
+                'resources/js/chatbot.js',
             ],
             refresh: true,
         }),

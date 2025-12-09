@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GeminiController;
 
 /*
@@ -15,11 +16,16 @@ use App\Http\Controllers\GeminiController;
 |
 */
 
-// Route::get('/', function () {
-//     // return view('dashboard');
-//     return [DashboardController::class, 'index'];
-// });
+Route::middleware(['authm'])->group(function () {
+    // dashboard route
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // send message to chatbot
+    Route::get('/chatbot/send', [GeminiController::class, 'getMessage'])->name('chatbot.get');
+    Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
+});
 
-Route::get('/', [DashboardController::class, 'index']);
-Route::get('/chatbot/send', [GeminiController::class, 'scanMessage']);
-Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
+Route::get('registration', [AuthController::class, 'registration'])->name('register');
+Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');

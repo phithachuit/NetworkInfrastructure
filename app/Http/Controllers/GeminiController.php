@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+use App\Models\ChatBotModel;
+
 class GeminiController extends Controller
 {
     protected $geminiService;
@@ -24,6 +26,15 @@ class GeminiController extends Controller
         // $this->geminiService = $geminiService;
         $this->apiKey = env('GEMINI_API_KEY');
         $this->baseUrl = env('GEMINI_API_URL');
+    }
+
+    public function getMessage(Request $request)
+    {
+        // return view('search');
+
+        return response()->json([
+            'messages' => ChatBotModel::getAllMessages()
+        ]);
     }
 
     public function askGemini($userKeyword, $contextData = null)
@@ -74,37 +85,38 @@ class GeminiController extends Controller
         }
     }
 
-    public function scanMessage(Request $request)
-    {
-        return view('search');
-    }
-
     public function sendMessage(Request $request)
     {
-        $keyword = $request->input('message');
+        $keyword = $request->input('messageChat');
+
+        // dd($keyword);
 
         // BƯỚC A: Tìm trong Database nội bộ trước (Ưu tiên dữ liệu chính xác của trường)
         // Ví dụ: tìm xem có lỗi nào khớp trong DB không để lấy làm "context"
         // $localData = ErrorDefinition::where('keyword', 'LIKE', "%{$keyword}%")->first();
-        
-        // $context = null;
-        // if ($localData) {
-        //     $context = "Tên lỗi: {$localData->error_name}. Cách sửa: {$localData->solution}";
-        // }
-        $context = "Tên lỗi";
+        // Ensure variable is defined to avoid undefined variable access
+        $localData = null;
+        $context = null;
+        if ($localData) {
+            $context = "Tên lỗi: {$localData->error_name}. Cách sửa: {$localData->solution}";
+        }
+        // Fallback context (temporary placeholder)
+        $context = $context ?? "Tên lỗi";
 
         // BƯỚC B: Gửi cho Gemini xử lý ngôn ngữ tự nhiên
         // Gemini sẽ dùng keyword + context (nếu có) để viết thành câu trả lời hay hơn
         $botReply = $this->askGemini($keyword, $context);
 
-        // Chuyển đổi định dạng Markdown sang HTML để hiển thị đẹp hơn
-        $htmlContent = Str::markdown($botReply);
-
-        echo $htmlContent;
-        exit;
+        // Try to convert Markdown to HTML if the helper exists; fallback to raw reply on error
+        try {
+            $htmlContent = Str::markdown($botReply);
+        } catch (\Throwable $e) {
+            Log::error('Markdown conversion failed: ' . $e->getMessage());
+            $htmlContent = $botReply;
+        }
 
         return response()->json([
-            'reply' => $botReply
+            'reply' => $htmlContent
         ]);
     }
 }
