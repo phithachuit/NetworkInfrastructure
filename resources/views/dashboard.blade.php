@@ -228,14 +228,14 @@
               <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server Status</h6>
               <p class="mg-b-25">Summary of the status of your server.</p>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">CPU Usage (40.05 - 32 cpus)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar wd-25p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="CPU-text">CPU Usage (0%)</label>
+              <div class="progress ht-5 mg-b-10" id="CPU">
+                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">Memory Usage (32.2%)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-teal wd-60p" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="Memory-text">Memory Usage (0%)</label>
+              <div class="progress ht-5 mg-b-10" id="Memory">
+                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
               <label class="tx-12 tx-gray-600 mg-b-10">Disk Usage (82.2%)</label>
