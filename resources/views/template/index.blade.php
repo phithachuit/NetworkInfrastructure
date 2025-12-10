@@ -38,8 +38,6 @@
                 'resources/lib/jquery-switchbutton/jquery.switchButton.css', 
                 'resources/lib/rickshaw/rickshaw.min.css', 
                 'resources/lib/chartist/chartist.css'])
-
-                
   </head>
 
   <body>
@@ -54,19 +52,19 @@
             <span class="menu-item-label">Dashboard</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="mailbox.html" class="br-menu-link">
+        <a href="{{ route('user') }}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Mailbox</span>
+            <span class="menu-item-label">User</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="card-dashboard.html" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
-            <span class="menu-item-label">Cards &amp; Widgets</span>
+            <span class="menu-item-label">Setup</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="#" class="br-menu-link">
+        {{-- <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
             <span class="menu-item-label">UI Elements</span>
@@ -185,7 +183,7 @@
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Sitemap</span>
           </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+        </a><!-- br-menu-link --> --}}
       </div><!-- br-sideleft-menu -->
 
       <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label>
@@ -720,7 +718,8 @@
     <script src="{{ Vite::asset('resources/js/ResizeSensor.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/dashboard.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/chatbot.js') }}"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="{{ Vite::asset('resources/js/zabbix.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
       $(function(){

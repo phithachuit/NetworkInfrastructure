@@ -11,12 +11,22 @@ class ChatBotModel extends Model
 
     protected $table = 'chatbot_messages';
     protected $fillable = [
-        'user_message',
-        'bot_response',
+        'user_id',
+        'sender',
+        'message',
     ];
 
     public function getAllMessages()
     {
         return $this->all();
+    }
+
+    public function saveMessage($sender, $data)
+    {
+        ChatBotModel::create([
+            'user_id' => auth()->id(),
+            'sender' => $sender,
+            'message' => $data
+        ]);
     }
 }

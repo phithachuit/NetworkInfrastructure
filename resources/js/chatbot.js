@@ -17,6 +17,30 @@ chatbotForm.addEventListener('keypress', function(event) {
     }
 });
 
+
+function initChatbotMessages() {
+    fetch("./chatbot/send", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json', 
+            'X-CSRF-TOKEN': chatbotForm.querySelector('input[name="_token"]').value
+        }
+    })
+    .then(response => response.json())  
+    .then(data => {
+        if (data.messages && data.messages.length > 0) {
+            data.messages.forEach(msg => {
+                appendMessage(msg.sender, msg.message);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+initChatbotMessages();
+
 function appendMessage(sender, message) {
     // const messageDiv = document.createElement('div');
     // messageDiv.classList.add('message-bot', sender);

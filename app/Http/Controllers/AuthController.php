@@ -19,7 +19,13 @@ class AuthController extends Controller
     public function index()
     {
         return view('login');
-    }  
+    }
+
+    public function fakeUser(User $user)
+    {
+        $user->createUserFake([]);
+        return redirect()->route('login')->withSuccess('Fake user created successfully. You can now log in with email:');
+    }
 
     /**
      * Write code on Method

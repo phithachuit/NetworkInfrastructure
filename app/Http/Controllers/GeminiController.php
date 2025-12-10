@@ -28,12 +28,10 @@ class GeminiController extends Controller
         $this->baseUrl = env('GEMINI_API_URL');
     }
 
-    public function getMessage(Request $request)
+    public function getMessage(Request $request, ChatBotModel $ChatBotModel)
     {
-        // return view('search');
-
         return response()->json([
-            'messages' => ChatBotModel::getAllMessages()
+            'messages' => $ChatBotModel->getAllMessages()
         ]);
     }
 
@@ -88,6 +86,8 @@ class GeminiController extends Controller
     public function sendMessage(Request $request)
     {
         $keyword = $request->input('messageChat');
+        // store user message in database
+        $this->saveChatMessage('user', $keyword);
 
         // dd($keyword);
 
@@ -115,8 +115,19 @@ class GeminiController extends Controller
             $htmlContent = $botReply;
         }
 
+        // Store bot reply in database
+        if($botReply) {
+            $this->saveChatMessage('bot', $htmlContent);
+        }
+
         return response()->json([
             'reply' => $htmlContent
         ]);
+    }
+
+    public function saveChatMessage($sender, $data)
+    {
+        $chatBotModel = new ChatBotModel();
+        $chatBotModel->saveMessage($sender, $data);
     }
 }

@@ -28,6 +28,7 @@ export default defineConfig({
                 'resources/js/ResizeSensor.js',
                 'resources/js/dashboard.js',
                 'resources/js/chatbot.js',
+                'resources/js/zabbix.js',
             ],
             refresh: true,
         }),

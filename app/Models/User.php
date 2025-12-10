@@ -41,4 +41,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function createUser($data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt("0929626424Thach")
+        ]);
+    }
+    public function createUserFake($data)
+    {
+        return User::create([
+            'name' => "Phi Thạch",
+            'email' => "lephithach00@gmail.com",
+            'password' => bcrypt("0929626424Thach")
+        ]);
+    }
 }
