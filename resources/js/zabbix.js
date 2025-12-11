@@ -175,3 +175,173 @@ const historyStatus = async () => {
 };
 
 historyStatus();
+
+
+const logList = document.getElementById('logList');
+
+// Lấy log cảnh báo
+const getAlertLogs = async () => {
+    const payload = {
+        jsonrpc: "2.0",
+        method: "problem.get",
+        params: {
+            output: ["eventid", "clock", "name", "severity"],
+            // sortfield: "clock",
+            sortorder: "DESC",
+            limit: 100, // Lấy 100 lỗi mới nhất
+            severities: [1,2,3, 4, 5] // BỎ COMMENT dòng này nếu chỉ muốn lấy lỗi Cao/Thảm họa
+        },
+        id: 1
+    };
+
+    let response = await fetch(ZABBIX_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+            'Authorization': API_TOKEN
+        },
+        body: JSON.stringify(payload)
+    });
+
+    let data = await response.json();
+    let problems = data.result;
+    let html = '';
+
+    problems.forEach(p => {
+        // Chuyển mã severity thành chữ cho dễ đọc
+        let level = "";
+        let classLevel = "secondary";
+
+        if (p.severity == 1) {
+            level = "Thông tin";
+            classLevel = "primary";
+        }
+
+        if (p.severity == 2) {
+            level = "Cảnh báo";
+            classLevel = "warning";
+        }
+        if (p.severity == 3) {
+            level = "Trung bình";
+            classLevel = "warning";
+        }
+        if (p.severity == 4) {
+            level = "Cao";
+            classLevel = "danger";
+        }
+        if (p.severity == 5) {
+            level = "Nguy hiểm";
+            classLevel = "danger";
+        }
+
+        let time = new Date(p.clock * 1000).toLocaleString();
+        // console.log(`[${time}] [${level}] ${p.name}`);
+
+        html += `<div class="alert alert-${classLevel} mg-b-0" role="alert">
+                    <strong>[${level}]</strong> ${p.name} <br/>
+                    <small class="text-muted">${time}</small>
+                </div>`;
+    });
+
+    logList.insertAdjacentHTML('beforeend', html);
+};
+
+getAlertLogs();
+
+// Lấy log user tác động
+const getAuditLog = async () => {
+    let payload = {
+        jsonrpc: "2.0",
+        method: "auditlog.get",
+        params: {
+            output: "extend",
+            // sortfield: "clock",
+            sortorder: "DESC",
+            limit: 10 // Lấy 10 hành động gần nhất
+        },
+        // auth: API_TOKEN,
+        id: 1
+    };
+    
+    let response = await fetch(ZABBIX_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+            'Authorization': API_TOKEN
+        },
+        body: JSON.stringify(payload)
+    });
+
+    let data = await response.json();
+    let problems = data.result;
+
+    console.log("--- problems ---");
+    console.log(problems);
+    
+};
+
+getAuditLog();
+
+const getBandwidthHistory = async (hostId) => {
+    // BƯỚC 1: Tìm Item ID của Traffic Out (Upload) và In (Download)
+    // Key chuẩn thường là: net.if.in[tên_card_mạng] hoặc net.if.out[...]
+    const itemRes = await fetch(ZABBIX_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+            'Authorization': API_TOKEN
+        },
+        body: JSON.stringify({
+            jsonrpc: "2.0",
+            method: "item.get",
+            params: {
+                output: ["itemid", "name", "key_"],
+                hostids: hostId,
+                search: { key_: "net.if.in" }, // Tìm traffic đầu vào
+                sortfield: "name"
+            },
+            id: 2
+        })
+    });
+    
+    const itemData = await itemRes.json();
+    if (itemData.result.length === 0) return console.log("Không tìm thấy item mạng.");
+    
+    const netItemId = itemData.result[0].itemid; // Lấy cái card mạng đầu tiên tìm thấy
+    const netName = itemData.result[0].name;
+
+    // BƯỚC 2: Lấy lịch sử băng thông
+    const historyRes = await fetch(ZABBIX_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+            'Authorization': API_TOKEN
+        },
+        body: JSON.stringify({
+            jsonrpc: "2.0",
+            method: "history.get",
+            params: {
+                output: "extend",
+                history: 3, // <--- SỐ 3 LÀ KIỂU SỐ NGUYÊN (UNSIGNED) CHO BĂNG THÔNG
+                itemids: netItemId,
+                sortfield: "clock",
+                sortorder: "DESC",
+                limit: 1
+            },
+            id: 3
+        })
+    });
+
+    const historyData = await historyRes.json();
+    
+    console.log(`--- LỊCH SỬ BĂNG THÔNG (${netName}) ---`);
+    console.log(historyData);
+    historyData.result.forEach(h => {
+        const time = new Date(h.clock * 1000).toLocaleTimeString();
+        // Zabbix lưu đơn vị là bps (bits per second), chia 1000*1000 ra Mbps
+        const mbps = (h.value / 1000000).toFixed(2); 
+        console.log(`[${time}] Tốc độ: ${mbps} Mbps`);
+    });
+};
+
+getBandwidthHistory("10084"); // Thay 10084 bằng ID host bạn muốn kiểm tra

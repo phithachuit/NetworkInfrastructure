@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -57,5 +60,9 @@ class User extends Authenticatable
             'email' => "lephithach00@gmail.com",
             'password' => bcrypt("0929626424Thach")
         ]);
+    }
+
+    public function getUser() {
+        return $this->all();
     }
 }

@@ -18,7 +18,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('login');
+        return view('user.login');
     }
 
     public function fakeUser(User $user)
@@ -34,7 +34,7 @@ class AuthController extends Controller
      */
     public function registration()
     {
-        return view('registration');
+        return view('user.registration');
     }
 
     /**

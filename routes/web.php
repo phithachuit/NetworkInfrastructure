@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserDashboard;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GeminiController;
 
@@ -25,7 +25,9 @@ Route::middleware(['authm'])->group(function () {
     Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
 
     // user dashboard route
-    Route::get('/user', [UserDashboard::class, 'index'])->name('user');
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
 });
 
 Route::get('login', [AuthController::class, 'index'])->name('login');

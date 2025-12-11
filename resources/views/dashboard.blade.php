@@ -1,6 +1,9 @@
 
 @extends('template.index')
 @section('title', "Dashboard")
+@extends('template.panelLeft')
+@extends('template.panelHead')
+
 
 @section('content')
 <!-- ########## START: MAIN PANEL ########## -->
@@ -74,38 +77,14 @@
                     <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Log</h6>
                   </div>
                   <div class="tx-13">
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-purple mg-r-10"></span> Thông tin</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> Thông tin</p>
                     <p class="mg-b-0"><span class="square-8 rounded-circle bg-yellow mg-r-10" style="background-color: #F49917;"></span> Cảnh báo</p>
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span> Quan trọng</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span>Nguy hiểm</p>
                   </div>
                 </div><!-- d-flex -->
               </div>
-              <div class="pd-x-15 pd-b-15">
-                @foreach ($data as $item)
-                @php
-                  switch ($item['level']) {
-                    case 'warning':
-                      $class = 'text-warning';
-                      break;
-                    case 'critical':
-                      $class = 'text-danger';
-                      break;
-                    case 'notice':
-                      $class = 'text-primary';
-                      break;
-                    default:
-                      $class = '';
-                      break;
-                  }
-                @endphp
-                  <p class="{{ $class }}">{{ $item['logid'] }} - 
-                    {{ $item['srcip'] ?? NULL }} - 
-                    {{ $item['srcport'] ?? NULL }} - 
-                    {{ $item['dstintf'] ?? NULL }} - 
-                    {{ $item['msg'] ?? NULL }} - 
-                    {{ $item['datetime'] ?? NULL }} 
-                  </p>
-                @endforeach
+              <div class="pd-x-15 pd-b-15" id="logList">
+                <!-- Log items will be appended here by zabbix.js -->
               </div>
             </div><!-- card -->
 
