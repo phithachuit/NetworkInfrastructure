@@ -150,12 +150,12 @@
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
-                <li><a href="{{ route('logout') }}"><i class="icon ion-power"></i> Sign Out</a></li>
+                <li><a href="{{ route('user.edit', Auth::user()->id) }}"><i class="icon ion-ios-person"></i> Sửa người dùng</a></li>
+                <!-- <li><a href=""><i class="icon ion-ios-gear"></i> Cài đặt</a></li> -->
+                <!-- <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li> -->
+                <!-- <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li> -->
+                <!-- <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li> -->
+                <li><a href="{{ route('logout') }}"><i class="icon ion-power"></i> Đăng xuất</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->

@@ -54,12 +54,13 @@ class User extends Authenticatable
             'password' => bcrypt("0929626424Thach")
         ]);
     }
+
     public function createUserFake($data)
     {
         return User::create([
             'name' => "Phi Thạch",
             'email' => "lephithach00@gmail.com",
-            'role' => PermissionModel::find('admin')->permission_id,
+            'role' => 'admin',
             'password' => bcrypt("0929626424Thach")
         ]);
     }

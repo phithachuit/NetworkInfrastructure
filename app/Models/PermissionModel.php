@@ -11,6 +11,8 @@ class PermissionModel extends Model
 
     protected $table = 'users_permissions';
     protected $primaryKey = 'permission_id';
+    public $incrementing = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'permission_id',
@@ -18,11 +20,35 @@ class PermissionModel extends Model
         'permission_active'
     ];
 
+    // // rela
+    public function users(){
+        return $this->belongsTo(UserModel::class);
+    }
+
+    public function getPermissions()
+    {
+        return $this->all();
+    }
+
+    public function store($data)
+    {
+        return self::create([
+            'permission_id' => $data['permission_id'],
+            'permission_name' => $data['permission_name'],
+            'permission_active' => $data['permission_active']
+        ]);
+    }
+
+    public function find($id) {
+        return self::where('permission_id', $id)->first()->toArray();
+    }
+
+    // fake permission data
     public function initPermissions() {
         $permissions = [
-            ['permission_id' => 'admin', 'permission_name' => 'Administrator', 'permission_active' => true],
-            ['permission_id' => 'user', 'permission_name' => 'user', 'permission_active' => true],
-            ['permission_id' => 'viewer', 'permission_name' => 'Viewer', 'permission_active' => true],
+            ['permission_id' => 'admin', 'permission_name' => 'Quản trị', 'permission_active' => true],
+            ['permission_id' => 'user', 'permission_name' => 'Người dùng', 'permission_active' => true],
+            ['permission_id' => 'viewer', 'permission_name' => 'Người xem', 'permission_active' => true],
         ];
 
         foreach ($permissions as $permission) {

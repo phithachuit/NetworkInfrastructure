@@ -12,7 +12,19 @@ class UserModel extends Model
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role'
+    ];
+
     public function getUser() {
-        return UserModel::all()->toArray();
+        return UserModel::join('users_permissions', 'users_permissions.permission_id', '=', 'users.role')->get()->toArray();
+    }
+
+    // rela
+    public function permissions(){
+        return $this->hasMany(PermissionModel::class);
     }
 }

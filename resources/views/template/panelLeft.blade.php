@@ -3,30 +3,55 @@
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
+
         <a href="{{ route('dashboard') }}" class="br-menu-link {{ request()->route()->named('dashboard') ? 'active' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="#" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }} ">
+
+        <a href="#" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }}">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
-            <span class="menu-item-label">User</span>
+            <i class="menu-item-icon icon ion-person tx-20"></i>
+            <span class="menu-item-label">Người dùng</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ route('user') }}" class="nav-link">Danh sách tài khoản</a></li>
-          <li class="nav-item"><a href="{{ route('user.create') }}" class="nav-link">Tạo tài khoản</a></li>
-          <li class="nav-item"><a href="{{ route('user.create') }}" class="nav-link">Danh sách nhóm</a></li>
+          <li class="nav-item"><a href="{{ route('user.index') }}" class="nav-link {{ request()->route()->named('user.index') ? 'active' : '' }}">Danh sách người dùng</a></li>
+          <li class="nav-item"><a href="{{ route('user.create') }}" class="nav-link {{ request()->route()->named('user.create') ? 'active' : '' }}">Thêm người dùng</a></li>
         </ul>
-        {{--<a href="{{ route('user') }}" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }} ">
+
+        <a href="#" class="br-menu-link {{ request()->route()->named('permission*') ? 'active' : '' }}">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">User</span>
+            <i class="menu-item-icon icon ion-person-stalker tx-20"></i>
+            <span class="menu-item-label">Nhóm</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ route('permission.index') }}" class="nav-link {{ request()->route()->named('permission.index') ? 'active' : '' }}">Danh sách nhóm</a></li>
+          <li class="nav-item"><a href="{{ route('permission.create') }}" class="nav-link {{ request()->route()->named('permission.create') ? 'active' : '' }}">Thêm nhóm</a></li>
+        </ul>
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+            <span class="menu-item-label">Cài đặt</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="form-elements.html" class="nav-link">Form Elements</a></li>
+          <li class="nav-item"><a href="form-layouts.html" class="nav-link">Form Layouts</a></li>
+          <li class="nav-item"><a href="form-validation.html" class="nav-link">Form Validation</a></li>
+          <li class="nav-item"><a href="form-wizards.html" class="nav-link">Form Wizards</a></li>
+          <li class="nav-item"><a href="form-editor-code.html" class="nav-link">Code Editor</a></li>
+          <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
+        </ul>
+
+        {{--
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>

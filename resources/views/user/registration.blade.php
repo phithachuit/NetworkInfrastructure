@@ -41,7 +41,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                             <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" id="email" name="email" placeholder="Enter email address">
+                            <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
                             </div>
                         </div><!-- col-4 -->
                         <div class="col-lg-4">
@@ -50,21 +50,25 @@
                             <input class="form-control" type="password" id="password" name="password" placeholder="Mật khẩu">
                             </div>
                         </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                            <label class="form-control-label">Nhập lại mật khẩu: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu">
+                            </div>
+                        </div><!-- col-4 -->
                         <div class="col-lg-8">
                             <div class="form-group mg-b-10-force">
                             <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" name="address" placeholder="Địa chỉ">
+                            <input class="form-control" type="text" name="address" placeholder="Địa chỉ" value="{{ old('address') }}">
                             </div>
                         </div><!-- col-8 -->
                         <div class="col-lg-4">
                             <div class="form-group mg-b-10-force">
-                            <label class="form-control-label">Quyền: <span class="tx-danger">*</span></label>
+                            <label class="form-control-label">Nhóm: <span class="tx-danger">*</span></label>
                             <select class="form-control select2" data-placeholder="Choose country" name="permission">
-                                <option label="Choose country"></option>
-                                <option value="USA">United States of America</option>
-                                <option value="UK">United Kingdom</option>
-                                <option value="China">China</option>
-                                <option value="Japan">Japan</option>
+                                @foreach($permissions as $permission)
+                                <option value="{{ $permission['permission_id'] }}">{{ $permission['permission_name'] }}</option>
+                                @endforeach
                             </select>
                             </div>
                         </div><!-- col-4 -->

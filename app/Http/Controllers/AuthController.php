@@ -21,9 +21,8 @@ class AuthController extends Controller
         return view('user.login');
     }
 
-    public function fakeUser(User $user, PermissionModel $permission)
+    public function fakeUser(User $user)
     {
-        $permission->initPermissions();
         $user->createUserFake([]);
         return redirect()->route('login')->withSuccess('Fake user created successfully. You can now log in with email:');
     }
@@ -46,17 +45,21 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
+        ],[
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không hợp lệ',
+            'password.required' => 'Mật khẩu không được để trống',
         ]);
    
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard')->withSuccess('You have Successfully loggedin');
+            return redirect()->route('dashboard')->withSuccess('Đăng nhập thành công');
         }
 
-        return redirect()->route('login')->withErrors('Oppes! You have entered invalid credentials');
+        return redirect()->route('login')->withErrors('Đăng nhập thất bại');
     }
 
     /**
@@ -115,6 +118,6 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();  
 
-        return redirect()->route('login');
+        return redirect()->route('login')->withSuccess('Đăng xuất thành công');
     }
 }
