@@ -357,3 +357,4 @@
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 @endsection
+<script src="{{ Vite::asset('resources/js/zabbix.js') }}"></script>

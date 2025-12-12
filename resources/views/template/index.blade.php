@@ -363,7 +363,7 @@
     <script src="{{ Vite::asset('resources/js/ResizeSensor.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/dashboard.js') }}"></script>
     <script src="{{ Vite::asset('resources/js/chatbot.js') }}"></script>
-    <script src="{{ Vite::asset('resources/js/zabbix.js') }}"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>

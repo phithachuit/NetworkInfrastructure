@@ -9,7 +9,19 @@
             <span class="menu-item-label">Dashboard</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="{{ route('user') }}" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }} ">
+        <a href="#" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }} ">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+            <span class="menu-item-label">User</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ route('user') }}" class="nav-link">Danh sách tài khoản</a></li>
+          <li class="nav-item"><a href="{{ route('user.create') }}" class="nav-link">Tạo tài khoản</a></li>
+          <li class="nav-item"><a href="{{ route('user.create') }}" class="nav-link">Danh sách nhóm</a></li>
+        </ul>
+        {{--<a href="{{ route('user') }}" class="br-menu-link {{ request()->route()->named('user*') ? 'active' : '' }} ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
             <span class="menu-item-label">User</span>
@@ -21,7 +33,7 @@
             <span class="menu-item-label">Setup</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-         {{--<a href="#" class="br-menu-link">
+         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
             <span class="menu-item-label">UI Elements</span>

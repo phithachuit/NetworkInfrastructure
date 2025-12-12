@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\PermissionModel;
 
 class User extends Authenticatable
 {
@@ -58,6 +59,7 @@ class User extends Authenticatable
         return User::create([
             'name' => "Phi Thạch",
             'email' => "lephithach00@gmail.com",
+            'role' => PermissionModel::find('admin')->permission_id,
             'password' => bcrypt("0929626424Thach")
         ]);
     }

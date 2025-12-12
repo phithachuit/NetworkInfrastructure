@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
-use App\Models\User;
+use App\Models\{User, PermissionModel};
 use Hash;
 
 class AuthController extends Controller
@@ -21,8 +21,9 @@ class AuthController extends Controller
         return view('user.login');
     }
 
-    public function fakeUser(User $user)
+    public function fakeUser(User $user, PermissionModel $permission)
     {
+        $permission->initPermissions();
         $user->createUserFake([]);
         return redirect()->route('login')->withSuccess('Fake user created successfully. You can now log in with email:');
     }
