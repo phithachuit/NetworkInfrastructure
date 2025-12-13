@@ -54,12 +54,13 @@ class AuthController extends Controller
         ]);
    
         $credentials = $request->only('email', 'password');
+        $credentials['active'] = 1;
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard')->withSuccess('Đăng nhập thành công');
         }
 
-        return redirect()->route('login')->withErrors('Đăng nhập thất bại');
+        return redirect()->route('login')->with('error', 'Đăng nhập thất bại');
     }
 
     /**

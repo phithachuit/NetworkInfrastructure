@@ -7,11 +7,17 @@
         @csrf
       <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
         <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-strong">ĐĂNG NHẬP</span></div>
-        <div class="tx-center mg-b-30">Vui lòng đăng nhập để tiếp tục</div>
+        <div class="tx-center mg-b-30">Quản trị hệ thống</div>
         
         @if (session('success'))
             <div class="alert alert-success">
                 <p class="mb-0 text-center">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                <p class="mb-0 text-center">{{ session('error') }}</p>
             </div>
         @endif
 

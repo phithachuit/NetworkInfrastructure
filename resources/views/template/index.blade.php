@@ -38,6 +38,7 @@
                 'resources/lib/jquery-switchbutton/jquery.switchButton.css', 
                 'resources/lib/rickshaw/rickshaw.min.css', 
                 'resources/lib/chartist/chartist.css'])
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   </head>
 
   <body>

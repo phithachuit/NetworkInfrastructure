@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Models\PermissionModel;
 use Illuminate\Validation\Rule;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -75,9 +76,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, UserModel $userModel)
     {
-        //
+        $currentUser = auth()->user();
+
+        $user = $userModel->select('id', 'email', 'name')->find($id)->toArray();
+        return view('user.changepass', compact('user'));
     }
 
     /**
@@ -129,6 +133,32 @@ class UserController extends Controller
         return $updated 
             ? redirect()->route('user.index')->withSuccess('Sửa thành công') 
             : redirect()->back()->withErrors('Sửa thất bại (Không tìm thấy bản ghi)');
+    }
+
+    public function changePass(Request $request, $id) {
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => ['required', 'email', 
+                Rule::unique('users', 'email')->ignore($request->email, 'email')
+            ],
+            'password' => 'required|min:8|confirmed',
+        ],[
+            'name.required' => 'Tên không được để trống',
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không đúng định dạng',
+            'email.unique' => 'Email đã tồn tại',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu phải dài hơn :min ký tự',
+            'password.confirmed' => 'Mật khẩu không khớp',
+        ]);
+
+        $updated = UserModel::where('id', $id)->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return $updated 
+            ? redirect()->route('user.index')->withSuccess('Đổi mật khẩu thành công') 
+            : redirect()->back()->withErrors('Đổi mật khẩu thất bại (Không tìm thấy bản ghi)');
     }
 
     /**

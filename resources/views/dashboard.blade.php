@@ -10,7 +10,7 @@
     <div class="br-mainpanel">
       <div class="pd-30">
         <h4 class="tx-gray-800 mg-b-5">Dashboard</h4>
-        <p class="mg-b-0">Do big things with Bracket, the responsive bootstrap 4 admin template.</p>
+        <!-- <p class="mg-b-0">Do big things with Bracket, the responsive bootstrap 4 admin template.</p> -->
       </div><!-- d-flex -->
 
       <div class="br-pagebody mg-t-5 pd-x-30">
@@ -18,11 +18,11 @@
           <div class="col-sm-6 col-xl-3">
             <div class="bg-teal rounded overflow-hidden">
               <div class="pd-25 d-flex align-items-center">
-                <i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>
+                <i class="bi bi-info-circle tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Thông báo</p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['notice'] ?? 0 }}</p>
-                  <span class="tx-11 tx-roboto tx-white-6">24% higher yesterday</span>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">24% higher yesterday</span> -->
                 </div>
               </div>
             </div>
@@ -30,11 +30,11 @@
           <div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
             <div class="bg-danger rounded overflow-hidden">
               <div class="pd-25 d-flex align-items-center">
-                <i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
+                <i class="ion ion-minus-circled tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Quan trọng</p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['critical'] ?? 0 }}</p>
-                  <span class="tx-11 tx-roboto tx-white-6">$390,212 before tax</span>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">$390,212 before tax</span> -->
                 </div>
               </div>
             </div>
@@ -42,11 +42,11 @@
           <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
             <div class="bg-warning rounded overflow-hidden">
               <div class="pd-25 d-flex align-items-center">
-                <i class="ion ion-monitor tx-60 lh-0 tx-white op-7"></i>
+                <i class="bi bi-exclamation-triangle tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Cảnh báo</p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['warning'] ?? 0 }}</p>
-                  <span class="tx-11 tx-roboto tx-white-6">23% average duration</span>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">23% average duration</span> -->
                 </div>
               </div>
             </div>
@@ -197,15 +197,13 @@
                 </div><!-- col-6 -->
               </div><!-- row -->
             </div><!-- card -->
-
-
           </div><!-- col-9 -->
           <div class="col-4">
 
 
             <div class="card bd-0 shadow-base pd-30">
-              <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server Status</h6>
-              <p class="mg-b-25">Summary of the status of your server.</p>
+              <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server</h6>
+              <p class="mg-b-25">Trạng thái server hiện tại.</p>
 
               <label class="tx-12 tx-gray-600 mg-b-10" id="CPU-text">CPU Usage (0%)</label>
               <div class="progress ht-5 mg-b-10" id="CPU">

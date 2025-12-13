@@ -27,20 +27,39 @@ Route::middleware(['authm'])->group(function () {
 
     // user route
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
-    Route::get('/user/{user_id}', [UserController::class, 'show'])->name('user.show');
-    Route::get('/user/edit/{user_id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/user/edit/{user_id}', [UserController::class, 'update'])->name('user.update');
-    Route::get('/user/edit/delete/{user_id}', [UserController::class, 'destroy'])->name('user.destroy');
 
-    // permission route
-    Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
-    Route::get('/permission/create', [PermissionController::class, 'create'])->name('permission.create');
-    Route::post('/permission/create', [PermissionController::class, 'store'])->name('permission.store');
-    Route::get('/permission/edit/{permission_id}', [PermissionController::class, 'edit'])->name('permission.edit');
-    Route::put('/permission/edit/{permission_id}', [PermissionController::class, 'update'])->name('permission.update');
-    Route::get('/permission/edit/delete/{permission_id}', [PermissionController::class, 'destroy'])->name('permission.destroy');
+    // Check admin or owner
+    Route::middleware(['owner_or_admin'])->group(function () {
+        // create user
+        Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
+        // delete user
+        Route::get('/user/edit/delete/{user_id}', [UserController::class, 'destroy'])->name('user.destroy');
+        // edit user
+        Route::get('/user/edit/{user_id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/user/edit/{user_id}', [UserController::class, 'update'])->name('user.update');
+        
+        // change pass
+        Route::get('/user/{user_id}', [UserController::class, 'show'])->name('user.show');
+        Route::put('/user/{user_id}', [UserController::class, 'changePass'])->name('user.changePass');
+
+        // permission route
+        Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index');
+        // permission create
+        Route::get('/permission/create', [PermissionController::class, 'create'])->name('permission.create');
+        Route::post('/permission/create', [PermissionController::class, 'store'])->name('permission.store');
+        // permission edit
+        Route::get('/permission/edit/{permission_id}', [PermissionController::class, 'edit'])->name('permission.edit');
+        // permission update
+        Route::put('/permission/edit/{permission_id}', [PermissionController::class, 'update'])->name('permission.update');
+        // permission delete
+        Route::get('/permission/edit/delete/{permission_id}', [PermissionController::class, 'destroy'])->name('permission.destroy');
+    });
+
+    // check admin
+    Route::middleware(['checkadmin'])->group(function () {
+        // 
+    });
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');

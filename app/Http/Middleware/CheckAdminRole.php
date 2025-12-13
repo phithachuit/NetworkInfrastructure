@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthMiddleware
+class CheckAdminRole
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,11 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để truy cập');
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return $next($request);
         }
-        return $next($request);
+
+        // Nếu không phải admin, trả về lỗi 403 hoặc chuyển hướng
+        return redirect()->back()->withErrors('Bạn không có quyền thực hiện hành động này.');
     }
 }

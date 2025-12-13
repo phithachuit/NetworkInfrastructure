@@ -1,6 +1,6 @@
 @extends('template.index')
 
-@section('title', 'Thêm người dùng')
+@section('title', 'Đổi mật khẩu người dùng')
 
 @extends('template.panelLeft')
 @extends('template.panelHead')
@@ -11,59 +11,47 @@
     <div class="br-mainpanel">
       <div class="br-pageheader pd-y-15 pd-l-20">
         <nav class="breadcrumb pd-0 mg-0 tx-12">
-          <a class="breadcrumb-item" href="index.html">Danh sách người dùng</a>
-          <span class="breadcrumb-item active">Thêm người dùng</span>
+          <a class="breadcrumb-item" href="{{ route('user.index') }}">Người dùng</a>
+          <span class="breadcrumb-item active">Đổi mật khẩu người dùng</span>
         </nav>
       </div><!-- br-pageheader -->
       <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Thêm người dùng</h4>
+        <h4 class="tx-gray-800 mg-b-5">Đổi mật khẩu người dùng</h4>
         <!-- <p class="mg-b-0">Forms are used to collect user information with different element types of input, select, checkboxes, radios and more.</p> -->
       </div>
 
       <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <form action="{{ route('user.store') }}" method="POST">
+            <form action="{{ route('user.changePass', $user['id']) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="form-layout form-layout-1">
                     <div class="row mg-b-25">
                         <div class="col-lg-4">
                             <div class="form-group">
-                            <label class="form-control-label">Họ tên: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Họ tên">
+                            <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="email" id="email" value="{{ $user['email'] ?? old('email') }}" placeholder="Email" readonly>
                             </div>
                         </div><!-- col-4 -->
-                        {{--<div class="col-lg-4">
-                            <div class="form-group">
-                            <label class="form-control-label">Lastname: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" name="lastname" placeholder="Enter lastname">
-                            </div>
-                        </div><!-- col-4 --> --}} 
+
                         <div class="col-lg-4">
                             <div class="form-group">
-                            <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
+                            <label class="form-control-label">Họ tên: <span class="tx-danger">*</span></label>
+                            <input class="form-control" type="text" name="name" value="{{ $user['name'] ?? old('name') }}" placeholder="Họ tên" readonly>
                             </div>
                         </div><!-- col-4 -->
+
                         <div class="col-lg-4">
                             <div class="form-group">
                             <label class="form-control-label">Mật khẩu: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="password" id="password" name="password" placeholder="Mật khẩu">
+                            <input class="form-control" type="password" name="password" value="{{ $user['password'] ?? old('password') }}" placeholder="Mật khẩu">
                             </div>
                         </div><!-- col-4 -->
+
                         <div class="col-lg-4">
                             <div class="form-group">
                             <label class="form-control-label">Nhập lại mật khẩu: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu">
-                            </div>
-                        </div><!-- col-4 -->
-                        <div class="col-lg-4">
-                            <div class="form-group mg-b-10-force">
-                            <label class="form-control-label">Nhóm: <span class="tx-danger">*</span></label>
-                            <select class="form-control select2" data-placeholder="Choose country" name="permission">
-                                @foreach($permissions as $permission)
-                                <option value="{{ $permission['permission_id'] }}">{{ $permission['permission_name'] }}</option>
-                                @endforeach
-                            </select>
+                            <input class="form-control" type="password" name="password_confirmation" value="{{ $user['password'] ?? old('password') }}" placeholder="Nhập lại mật khẩu">
                             </div>
                         </div><!-- col-4 -->
 
@@ -80,8 +68,7 @@
                 </form>
 
             <div class="form-layout-footer">
-              <button class="btn btn-primary">OK</button>
-              <button class="btn btn-secondary">Reset</button>
+              <button class="btn btn-primary">Sửa</button>
             </div><!-- form-layout-footer -->
           </div><!-- form-layout -->
         </div>

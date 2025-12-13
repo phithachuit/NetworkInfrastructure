@@ -12,7 +12,7 @@
       </div><!-- br-header-left -->
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">
+          {{--<div class="dropdown">
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
               <!-- start: if statement -->
@@ -81,7 +81,7 @@
                 </div>
               </div><!-- media-list -->
             </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
+          </div><!-- dropdown --> --}}
           <div class="dropdown">
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-bell-outline tx-24"></i>
@@ -144,9 +144,9 @@
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
               @auth
               <span class="logged-name hidden-md-down">{{ Auth::user()->name }}</span>
-              <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
+              <!-- <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt=""> -->
               @endauth
-              <span class="square-10 bg-success"></span>
+              <!-- <span class="square-10 bg-success"></span> -->
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
