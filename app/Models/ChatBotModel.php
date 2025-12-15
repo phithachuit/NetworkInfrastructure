@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ChatBotModel extends Model
 {
@@ -18,7 +19,7 @@ class ChatBotModel extends Model
 
     public function getAllMessages()
     {
-        return $this->all();
+        return $this->where('user_id', Auth::id())->get()->toArray();
     }
 
     public function saveMessage($sender, $data)

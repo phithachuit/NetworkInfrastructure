@@ -1,13 +1,20 @@
 <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href="{{ route('dashboard') }}"><span>[</span>Phi Thach<span>]</span></a></div>
+    <div class="br-logo"><a href="{{ route('dashboard') }}"><span></span>Phi Thach<span></span></a></div>
     <div class="br-sideleft overflow-y-auto">
-      <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
+      <label class="sidebar-label pd-x-15 mg-t-0">&nbsp;</label>
       <div class="br-sideleft-menu">
 
         <a href="{{ route('dashboard') }}" class="br-menu-link {{ request()->route()->named('dashboard') ? 'active' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+
+        <a href="{{ route('mail.index') }}" class="br-menu-link {{ request()->route()->named('mail*') ? 'active' : '' }}">
+          <div class="br-menu-item">
+            <i class="menu-item-icon bi bi-envelope tx-20"></i>
+            <span class="menu-item-label">Mail</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
 
@@ -177,7 +184,7 @@
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Sitemap</span>
           </div><!-- menu-item -->
-        </a><!-- br-menu-link -->  --}}
+        </a><!-- br-menu-link -->  
       </div><!-- br-sideleft-menu -->
 
       <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label>
@@ -213,7 +220,7 @@
             <h5 class="tx-lato tx-white tx-normal mg-b-0">62,201</h5>
           </div>
           <span class="peity-bar" data-peity='{ "fill": ["#9C7846"], "height": 35, "width": 60 }'>3,12,7,9,2,3,4,5,2</span>
-        </div><!-- d-flex -->
+        </div><!-- d-flex -->--}}
       </div><!-- info-lst -->
 
       <br>

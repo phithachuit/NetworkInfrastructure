@@ -22,7 +22,7 @@ class PermissionModel extends Model
 
     // // rela
     public function users(){
-        return $this->belongsTo(UserModel::class);
+        return $this->hasMany(UserModel::class, 'role', 'permission_id');
     }
 
     public function getPermissions()

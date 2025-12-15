@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\GeminiController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +22,21 @@ use App\Http\Controllers\GeminiController;
 Route::middleware(['authm'])->group(function () {
     // dashboard route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
     // send message to chatbot
     Route::get('/chatbot/send', [GeminiController::class, 'getMessage'])->name('chatbot.get');
     Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
-
+    
     // user route
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-
+    
+    // Mail 
+    Route::get('/mail', [MailController::class, 'index'])->name('mail.index');
+    
+    
     // Check admin or owner
     Route::middleware(['owner_or_admin'])->group(function () {
+
         // create user
         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
         Route::post('/user/create', [UserController::class, 'store'])->name('user.store');

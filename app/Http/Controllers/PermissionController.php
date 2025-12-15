@@ -15,7 +15,9 @@ class PermissionController extends Controller
      */
     public function index(PermissionModel $permissionModel)
     {
-        $permissions = $permissionModel->getPermissions();
+        $permissions = $permissionModel->withCount('users')->get()->toArray();
+        
+        // dd($permissionModel->withCount('users')->get()->toArray());
         return view('user.permission.listpermission', compact('permissions'));
     }
 

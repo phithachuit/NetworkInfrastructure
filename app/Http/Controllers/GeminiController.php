@@ -7,6 +7,7 @@ use App\Http\Controllers\GeminiService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\ChatBotModel;
 
@@ -30,8 +31,10 @@ class GeminiController extends Controller
 
     public function getMessage(Request $request, ChatBotModel $ChatBotModel)
     {
+        // lấy lịch sử tin nhắn theo id user
         return response()->json([
             'messages' => $ChatBotModel->getAllMessages()
+            // 'messages' => $ChatBotModel->where('user_id', Auth::id())->get()->toArray()
         ]);
     }
 
@@ -85,6 +88,15 @@ class GeminiController extends Controller
 
     public function sendMessage(Request $request)
     {
+        // Check quyền
+        if (Auth::check()){
+            if (Auth::user()->role !== 'admin') {
+                return response()->json([
+                    'reply' => 'Bạn không có quyền sử dụng chức năng này'
+                ], 403);
+            }
+        }
+
         $keyword = $request->input('messageChat');
         // store user message in database
         $this->saveChatMessage('user', $keyword);

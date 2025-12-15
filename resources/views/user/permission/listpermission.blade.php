@@ -29,17 +29,19 @@
         <table class="table mg-b-0">
             <thead>
             <tr>
-                <th>Mã nhóm</th>
-                <th>Tên</th>
-                <th>Trạng thái</th>
+                <th class="text-center">Mã nhóm</th>
+                <th class="text-center">Tên</th>
+                <th class="text-center">Số lượng tài khoản</th>
+                <th class="text-center">Trạng thái</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($permissions as $permission)
             <tr>
-                <th scope="row"><a href="{{ route('permission.edit', $permission['permission_id']) }}">{{ $permission['permission_id'] }}</a></th>
-                <td>{{ $permission['permission_name'] }}</td>
-                <td>{{ $permission['permission_active'] ? 'Kích hoạt' : 'Không kích hoạt' }}</td>
+                <th scope="row" class="text-center"><a href="{{ route('permission.edit', $permission['permission_id']) }}">{{ $permission['permission_id'] }}</a></th>
+                <td class="text-center">{{ $permission['permission_name'] }}</td>
+                <td class="text-center">{{ $permission['users_count'] }}</td>
+                <td class="text-center">{{ $permission['permission_active'] ? 'Kích hoạt' : 'Không kích hoạt' }}</td>
             </tr>
             @endforeach
             </tbody>
