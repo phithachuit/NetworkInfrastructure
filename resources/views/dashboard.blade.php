@@ -205,22 +205,22 @@
               <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server</h6>
               <p class="mg-b-25">Trạng thái server hiện tại.</p>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="CPU-text">CPU Usage (0%)</label>
-              <div class="progress ht-5 mg-b-10" id="CPU">
+              <label class="tx-12 tx-gray-600 mg-b-10" id="cpu-utilization-text">CPU Utilization (0%)</label>
+              <div class="progress ht-5 mg-b-10" id="cpu-utilization">
                 <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="Memory-text">Memory Usage (0%)</label>
-              <div class="progress ht-5 mg-b-10" id="Memory">
-                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="memory-utilization-text">Memory Utilization (0%)</label>
+              <div class="progress ht-5 mg-b-10" id="memoryUtilization">
+                <div class="progress-bar bg-teal wd-70p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">Disk Usage (82.2%)</label>
-              <div class="progress ht-5 mg-b-10">
+              <label class="tx-12 tx-gray-600 mg-b-10" id="memory-available-text">Memory Available</label>
+              <div class="progress ht-5 mg-b-10" id="memory-available">
                 <div class="progress-bar bg-danger wd-70p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">Databases (63/100)</label>
+              <label class="tx-12 tx-gray-600 mg-b-10">Memory Available</label>
               <div class="progress ht-5 mg-b-10">
                 <div class="progress-bar bg-warning wd-50p" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>

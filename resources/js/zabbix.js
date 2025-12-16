@@ -1,6 +1,6 @@
 // Cấu hình
 const ZABBIX_URL = 'http://192.168.1.28/api_jsonrpc.php';
-const API_TOKEN = 'Bearer 0dd2f051632cc9af5e4d93f7c4987a71421c9559173cf363bbcb54ad9faf3756'; // Lấy trong Zabbix Admin
+const API_TOKEN = 'Bearer 1deefb76b969768141cf095671111a85a60cc8962e353f8c87129e534121a0cc'; // Lấy trong Zabbix Admin
 
 async function getZabbixHosts() {
     try {
@@ -52,10 +52,10 @@ async function getZabbixHosts() {
 getZabbixHosts();
 
 
-const CPU = document.getElementById('CPU');
-const CPUText = document.getElementById('CPU-text');
-const MemoryText = document.getElementById('Memory-text');
-const Memory = document.getElementById('Memory');
+// const CPU = document.getElementById('CPU');
+// const CPUText = document.getElementById('CPU-text');
+// const MemoryText = document.getElementById('Memory-text');
+// const Memory = document.getElementById('Memory');
 
 const getSystemStats = async () => {
     const payload = {
@@ -90,7 +90,7 @@ const getSystemStats = async () => {
         }
 
         // 2. Parse dữ liệu từ JSON
-        const data = await response.json();
+        const data = await response.json();        
 
         // 3. Kiểm tra lỗi logic từ Zabbix API (Ví dụ: sai token, sai quyền)
         if (data.error) {
@@ -103,31 +103,33 @@ const getSystemStats = async () => {
         return data.result;
 };
 
-getSystemStats()
-    .then((items) => {
-        return items;
-    })
-    .then((items) => {
-        items.forEach((item) => {
-        // console.log(item);
-        if (item.name === 'CPU utilization') {
-            let cpuText = parseFloat(item.lastvalue).toFixed(2);
-            let cpuUsage = parseInt(item.lastvalue);
-            CPUText.innerText = `CPU Usage (${cpuText}%)`;
-            CPU.querySelector('.progress-bar').classList.add(`wd-${cpuUsage}p`);
-            CPU.querySelector('.progress-bar').setAttribute('aria-valuenow', cpuUsage);
-        }
+// getSystemStats()
+//     .then((items) => {
+//         return items;
+//     })
+//     .then((items) => {
+//         items.forEach((item) => {        
+//         if (item.name === "CPU utilization") {
+//             let cpuText = parseFloat(item.lastvalue).toFixed(2);
+//             let cpuUsage = parseInt(item.lastvalue);
+//             CPUText.innerText = `CPU Usage (${cpuText}%)`;
+//             CPU.querySelector('.progress-bar').classList.add(`wd-${cpuUsage}p`);
+//             CPU.querySelector('.progress-bar').setAttribute('aria-valuenow', cpuUsage);
+//         }
 
-        if (item.name === 'Memory utilization') {
-            let memoryText = parseFloat(item.lastvalue).toFixed(2);
-            let memoryUsage = parseInt(item.lastvalue);
-            let totalMemory = item.name = 'Total memory';
-            MemoryText.innerText = `Memory Usage (${memoryText}%)`;
-            Memory.querySelector('.progress-bar').classList.add(`wd-${memoryUsage}p`);
-            Memory.querySelector('.progress-bar').setAttribute('aria-valuenow', memoryUsage);
-        }
-    });
-});
+//         if (item.name === 'Memory utilization') {
+//             let memoryText = parseFloat(item.lastvalue).toFixed(2);
+//             let memoryUsage = parseInt(item.lastvalue);
+//             let totalMemory = item.name = 'Total memory';
+//             MemoryText.innerText = `Memory Usage (${memoryText}%)`;
+//             Memory.querySelector('.progress-bar').classList.add(`wd-${memoryUsage}p`);
+//             Memory.querySelector('.progress-bar').setAttribute('aria-valuenow', memoryUsage);
+//         }
+//     });
+// });
+
+
+
 
 const historyStatus = async () => {
     const payload = {
@@ -177,7 +179,7 @@ const historyStatus = async () => {
 historyStatus();
 
 
-const logList = document.getElementById('logList');
+
 
 // Lấy log cảnh báo
 const getAlertLogs = async () => {
@@ -246,7 +248,70 @@ const getAlertLogs = async () => {
     logList.insertAdjacentHTML('beforeend', html);
 };
 
-getAlertLogs();
+
+// Đảm bảo code chạy sau khi trang đã tải xong
+document.addEventListener('DOMContentLoaded', function() {
+
+    // get list log
+    const logList = document.getElementById('logList');
+    getAlertLogs();
+    
+    // get list server status
+    const CPUText = document.getElementById('cpu-utilization-text');
+    const CPU = document.getElementById('cpu-utilization');
+    const MemoryText = document.getElementById('memory-utilization-text');
+    const Memory = document.querySelector('#memoryUtilization');
+
+    getSystemStats()
+        .then((items) => {
+            if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
+
+            items.forEach((item) => {
+                console.log(item.name, item.lastvalue);
+                        
+                // Xử lý CPU
+                if (item.name === "CPU utilization") {
+                    // Kiểm tra xem phần tử HTML có tồn tại không trước khi thao tác
+                    if (CPUText && CPU) {
+                        let cpuText = parseFloat(item.lastvalue).toFixed(2);
+                        let cpuUsage = parseInt(item.lastvalue);
+                        
+                        CPUText.innerText = `CPU Utilization (${cpuText}%)`;
+                        
+                        let progressBar = CPU.querySelector('.progress-bar');
+                        if (progressBar) {
+                            // Xóa các class cũ để tránh bị chồng chéo class (vd: vừa wd-20p vừa wd-30p)
+                            progressBar.className = 'progress-bar'; 
+                            progressBar.classList.add(`wd-${cpuUsage}p`);
+                            progressBar.setAttribute('aria-valuenow', cpuUsage);
+                        }
+                    }
+                }
+
+                // Xử lý Memory
+                if (item.name === 'Memory utilization') {
+                    if (MemoryText && Memory) {
+                        let memoryText = parseFloat(item.lastvalue).toFixed(2);
+                        let memoryUsage = parseInt(item.lastvalue);
+                        console.log(memoryUsage);
+                        
+                        
+                        MemoryText.innerText = `Memory Utilization (${memoryText}%)`;
+                        
+                        let progressBar = Memory.querySelector('.progress-bar');
+                        if (progressBar) {
+                            progressBar.className = 'progress-bar bg-teal';
+                            progressBar.classList.add(`wd-${memoryUsage}p`);
+                            progressBar.setAttribute('aria-valuenow', memoryUsage);
+                        }
+                    }
+                }
+            });
+        })
+        .catch((error) => {
+            console.error("Lỗi khi lấy thông tin hệ thống:", error);
+        });
+});
 
 // Lấy log user tác động
 const getAuditLog = async () => {
