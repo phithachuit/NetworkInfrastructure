@@ -56,9 +56,9 @@
               <div class="pd-25 d-flex align-items-center">
                 <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
-                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bounce Rate</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">32.16%</p>
-                  <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span>
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ còn lại</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryAvailableValue">1 Mbps</p>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
                 </div>
               </div>
             </div>
@@ -92,17 +92,35 @@
               <div class="pd-x-30 pd-t-30 pd-b-15">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
-                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Network Performance</h6>
-                    <p class="mg-b-0">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Lịch sử CPU, RAM</h6>
+                    <!-- <p class="mg-b-0">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p> -->
                   </div>
                   <div class="tx-13">
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-purple mg-r-10"></span> TCP Reset Packets</p>
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span> TCP FIN Packets</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-info mg-r-10"></span> RAM</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> CPU</p>
                   </div>
                 </div><!-- d-flex -->
               </div>
               <div class="pd-x-15 pd-b-15">
                 <div id="ch1" class="br-chartist br-chartist-2 ht-200 ht-sm-300"></div>
+              </div>
+            </div><!-- card -->
+
+            <div class="card pd-0 bd-0 shadow-base">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Tốc độ mạng</h6>
+                  </div>
+                  <div class="tx-13">
+                    <!-- <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> Thông tin</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-yellow mg-r-10" style="background-color: #F49917;"></span> Cảnh báo</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span>Nguy hiểm</p> -->
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15 overflow-y-scroll" style="height: 200px;" id="logTraffic">
+                <!-- Log items will be appended here by zabbix.js -->
               </div>
             </div><!-- card -->
 
@@ -205,35 +223,35 @@
               <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server</h6>
               <p class="mg-b-25">Trạng thái server hiện tại.</p>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="cpu-utilization-text">CPU Utilization (0%)</label>
-              <div class="progress ht-5 mg-b-10" id="cpu-utilization">
-                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="cpuUtilizationText">CPU Utilization</label>
+              <div class="progress ht-5 mg-b-10" id="cpuUtilization">
+                <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="memory-utilization-text">Memory Utilization (0%)</label>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="memoryUtilizationText">Memory Utilization</label>
               <div class="progress ht-5 mg-b-10" id="memoryUtilization">
-                <div class="progress-bar bg-teal wd-70p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="memory-available-text">Memory Available</label>
-              <div class="progress ht-5 mg-b-10" id="memory-available">
-                <div class="progress-bar bg-danger wd-70p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+              <label class="tx-12 tx-gray-600 mg-b-10" id="memoryAvailableText">Memory Available</label>
+              <div class="progress ht-5 mg-b-10" id="memoryAvailable">
+                <div class="progress-bar bg-danger wd-100p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">Memory Available</label>
+              <!-- <label class="tx-12 tx-gray-600 mg-b-10">Network Speed</label>
               <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-warning wd-50p" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+                <div class="progress-bar bg-warning wd-100p" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              </div> -->
 
-              <label class="tx-12 tx-gray-600 mg-b-10">Domains (30/50)</label>
+              <!-- <label class="tx-12 tx-gray-600 mg-b-10">Domains (30/50)</label>
               <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-info wd-45p" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-info wd-100p" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
               <label class="tx-12 tx-gray-600 mg-b-10">Email Account (13/50)</label>
               <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-purple wd-65p" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+                <div class="progress-bar bg-purple wd-100p" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+              </div> -->
 
               <div class="mg-t-20 tx-13">
                 <a href="" class="tx-gray-600 hover-info">Generate Report</a>

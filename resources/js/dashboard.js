@@ -1,25 +1,25 @@
 $(function(){
   'use strict'
 
-  var ch1 = new Chartist.Line('#ch1', {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
-    series: [
-      [5, 9, 7, 8, 5, 3, 5, 4],
-      [10, 15, 10, 17, 8, 11, 16, 10]
-    ]
-  }, {
-    high: 30,
-    low: 0,
-    axisY: {
-      onlyInteger: true
-    },
-    showArea: true,
-    fullWidth: true,
-    chartPadding: {
-      bottom: 0,
-      left: 0
-    }
-  });
+  // var ch1 = new Chartist.Line('#ch1', {
+  //   labels: [1, 2, 3, 4, 5, 6, 7, 8],
+  //   series: [
+  //     [4, 9, 7, 8, 5, 3, 5, 4],
+  //     [10, 15, 10, 17, 8, 11, 16, 10]
+  //   ]
+  // }, {
+  //   high: 30,
+  //   low: 0,
+  //   axisY: {
+  //     onlyInteger: true
+  //   },
+  //   showArea: true,
+  //   fullWidth: true,
+  //   chartPadding: {
+  //     bottom: 0,
+  //     left: 0
+  //   }
+  // });
 
   // resize chart when container changest it's width
   new ResizeSensor($('.br-mainpanel'), function(){
