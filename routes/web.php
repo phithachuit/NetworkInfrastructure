@@ -32,6 +32,7 @@ Route::middleware(['authm'])->group(function () {
     
     // Mail 
     Route::get('/mail', [MailController::class, 'index'])->name('mail.index');
+    Route::get('/mail/setting', [MailController::class, 'settingMail'])->name('mail.settingMail');
     
     
     // Check admin or owner
@@ -65,7 +66,7 @@ Route::middleware(['authm'])->group(function () {
 
     // check admin
     Route::middleware(['checkadmin'])->group(function () {
-        // 
+        
     });
 });
 

@@ -88,7 +88,7 @@
               </div>
             </div><!-- card -->
 
-            <div class="card pd-0 bd-0 shadow-base">
+            <div class="card pd-0 bd-0 shadow-base mt-3">
               <div class="pd-x-30 pd-t-30 pd-b-15">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
@@ -106,23 +106,7 @@
               </div>
             </div><!-- card -->
 
-            <div class="card pd-0 bd-0 shadow-base">
-              <div class="pd-x-30 pd-t-30 pd-b-15">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Tốc độ mạng</h6>
-                  </div>
-                  <div class="tx-13">
-                    <!-- <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> Thông tin</p>
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-yellow mg-r-10" style="background-color: #F49917;"></span> Cảnh báo</p>
-                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span>Nguy hiểm</p> -->
-                  </div>
-                </div><!-- d-flex -->
-              </div>
-              <div class="pd-x-15 pd-b-15 overflow-y-scroll" style="height: 200px;" id="logTraffic">
-                <!-- Log items will be appended here by zabbix.js -->
-              </div>
-            </div><!-- card -->
+            
 
             <div class="card bd-0 shadow-base pd-30 mg-t-20">
               <div class="d-flex align-items-center justify-content-between mg-b-30">
@@ -233,10 +217,10 @@
                 <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10" id="memoryAvailableText">Memory Available</label>
+              <!-- <label class="tx-12 tx-gray-600 mg-b-10" id="memoryAvailableText">Memory Available</label>
               <div class="progress ht-5 mg-b-10" id="memoryAvailable">
                 <div class="progress-bar bg-danger wd-100p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+              </div> -->
 
               <!-- <label class="tx-12 tx-gray-600 mg-b-10">Network Speed</label>
               <div class="progress ht-5 mg-b-10">
@@ -259,8 +243,43 @@
               </div>
             </div><!-- card -->
 
-            <div class="card bg-transparent shadow-base bd-0 mg-t-20">
-              <div class="bg-primary rounded-top">
+            <div class="card pd-0 bd-0 shadow-base mt-3">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Tốc độ mạng</h6>
+                  </div>
+                  <div class="tx-13">
+                    <!-- <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> Thông tin</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-yellow mg-r-10" style="background-color: #F49917;"></span> Cảnh báo</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span>Nguy hiểm</p> -->
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15 overflow-y-scroll" style="height: 200px;" id="logTraffic">
+                <!-- Log items will be appended here by zabbix.js -->
+              </div>
+            </div><!-- card -->
+
+            <div class="card pd-0 bd-0 shadow-base mt-3">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Danh sách thiết bị</h6>
+                  </div>
+                  <div class="tx-13">
+                    <!-- <p class="mg-b-0"><span class="square-8 rounded-circle bg-primary mg-r-10"></span> Thông tin</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-yellow mg-r-10" style="background-color: #F49917;"></span> Cảnh báo</p>
+                    <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span>Nguy hiểm</p> -->
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15" id="listDevice">
+                <!-- Log items will be appended here by zabbix.js -->
+              </div>
+            </div><!-- card -->
+
+            {{--  <div class="bg-primary rounded-top">
                 <div class="pd-x-30 pd-t-30">
                   <h6 class="tx-13 tx-uppercase tx-white tx-semibold tx-spacing-1">Sale Status</h6>
                   <p class="mg-b-20 tx-white-6">As of October 10 - 17, 2017</p>
@@ -285,7 +304,7 @@
                 </div><!-- d-flex -->
               </div><!-- d-flex -->
             </div><!-- card -->
-
+            
             <div class="card bd-0 mg-t-20">
               <div id="carousel2" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -353,7 +372,7 @@
                   </div>
                 </div><!-- carousel-inner -->
               </div><!-- carousel -->
-            </div><!-- card -->
+            </div><!-- card --> --}}
 
           </div><!-- col-3 -->
         </div><!-- row -->

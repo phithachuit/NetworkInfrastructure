@@ -41,6 +41,7 @@ async function getZabbixHosts() {
 
         // Thành công! Dữ liệu nằm trong data.result
         console.log("Danh sách thiết bị:", data.result);
+
         return data.result;
 
     } catch (error) {
@@ -49,7 +50,7 @@ async function getZabbixHosts() {
 }
 
 // Gọi hàm
-getZabbixHosts();
+// getZabbixHosts();
 
 
 // const CPU = document.getElementById('CPU');
@@ -63,7 +64,7 @@ const getSystemStats = async () => {
         method: "item.get",
         params: {
             output: ["itemid", "name", "key_", "lastvalue", "units"], // Chỉ lấy các trường này
-            hostids: "10084", // ID của host bạn muốn xem (10084 thường là Zabbix Server)
+            hostids: "10770", // ID của host bạn muốn xem (10084 thường là Zabbix Server)
             search: {
                 //key_: "system.cpu.util" // Tìm tất cả item có chữ "system.cpu" trong key
                 // name: "CPU utilization"
@@ -127,59 +128,6 @@ const getSystemStats = async () => {
 //         }
 //     });
 // });
-
-
-
-
-const historyStatus = async () => {
-    const payload = {
-        jsonrpc: "2.0",
-        method: "history.get",
-        params: {
-            output: "extend",
-            history: 0, // 0 là Float (CPU thường dùng loại này)
-            itemids: itemId, // ID lấy được từ bước 1
-            sortfield: "clock", // Sắp xếp theo thời gian
-            sortorder: "DESC",  // Mới nhất lấy trước
-            limit: 10 // Lấy 10 điểm dữ liệu gần nhất
-        },
-        // auth: API_TOKEN,
-        id: 1
-    };
-
-    // Thực hiện lệnh Fetch
-        const response = await fetch(ZABBIX_URL, {
-            method: 'POST', // Zabbix luôn dùng POST
-            headers: {
-                'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
-                'Authorization': API_TOKEN
-            },
-            body: JSON.stringify(payload) // Fetch không tự stringify như Axios
-        });
-
-        // 1. Kiểm tra lỗi mạng (HTTP Status khác 200-299)
-        if (!response.ok) {
-            throw new Error(`HTTP Error! Status: ${response.status}`);
-        }
-
-        // 2. Parse dữ liệu từ JSON
-        const data = await response.json();
-
-        // 3. Kiểm tra lỗi logic từ Zabbix API (Ví dụ: sai token, sai quyền)
-        if (data.error) {
-            throw new Error(`Zabbix API Error: ${data.error.data}`);
-        }
-
-        // Thành công! Dữ liệu nằm trong data.result
-        console.log("Danh sách thiết bị:", data.result);
-
-        return data.result;
-};
-
-historyStatus();
-
-
-
 
 // Lấy log cảnh báo
 const getAlertLogs = async () => {
@@ -251,7 +199,7 @@ const getAlertLogs = async () => {
     logList.insertAdjacentHTML('beforeend', html);
 };
 
-// Đảm bảo code chạy sau khi trang đã tải xong
+// Các code chạy
 document.addEventListener('DOMContentLoaded', function() {
     getAlertLogs();
     
@@ -269,10 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
 
             items.forEach((item) => {
-                // console.log(item);
+                console.log(item);
                 
                 // Xử lý CPU
-                if (item.name === "CPU utilization") {
+                if (item.name === "#1: CPU utilization") {
                     if (cpuUtilizationText && cpuUtilization) {
                         let float = parseFloat(item.lastvalue).toFixed(2);
                         let int = parseInt(item.lastvalue);                        
@@ -315,50 +263,97 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Xử lý Memory
-                if (item.name === 'Available memory') {
-                    let float = parseFloat(item.lastvalue / 1024**3).toFixed(2);
-                    memoryAvailableValue.innerText = `${float} GB`;
+                // if (item.name === 'Available memory') {
+                //     let float = parseFloat(item.lastvalue / 1024**3).toFixed(2);
+                //     memoryAvailableValue.innerText = `${float} GB`;
+                // }
+
+                let totalMemory = 0;
+                let usedMemory = 0;
+                let availableMemory = 0;
+
+                if(item.key_ === 'vm.memory.total[hrStorageSize.Memory]'){
+                    totalMemory = item.lastvalue;
                 }
+
+                if(item.key_ === 'vm.memory.used[hrStorageUsed.Memory]'){
+                    usedMemory = item.lastvalue;
+                }
+
+                availableMemory = parseFloat(totalMemory) - parseFloat(usedMemory);
+                console.log(availableMemory);
+                
+
+                memoryAvailableValue.innerText = `${parseFloat(availableMemory / 1024).toFixed(2)} GB`;
             });
         })
         .catch((error) => {
             console.error("Lỗi khi lấy thông tin hệ thống:", error);
         });
+
+        // Lấy danh sách thiết bị
+        getZabbixHosts()
+        .then((items) => {
+            if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
+            
+            const listDevice = document.querySelector('#listDevice');
+            let html = '';
+
+            items.forEach((item) => {
+                // console.log(item.name);
+                
+                html += `
+                    <p>${item.name} - ${item.interfaces[0].ip} - ${item.hostid}</p>
+                `;
+
+                listDevice.innerHTML = html;
+            });
+
+        })
+        .catch((error) => {
+            console.error("Lỗi khi lấy thông tin hệ thống:", error);
+        });
+
+        // Vẽ sơ đồ lịch sử CPU, RAM
+        getHistoryStats();
+
+        // Lịch sử tốc độ mạng 10770 mikrotik
+        getBandwidthHistory("10770"); // Thay 10084 bằng ID host bạn muốn kiểm tra
 });
 
 // Lấy log user tác động
-const getAuditLog = async () => {
-    let payload = {
-        jsonrpc: "2.0",
-        method: "auditlog.get",
-        params: {
-            output: "extend",
-            // sortfield: "clock",
-            sortorder: "DESC",
-            limit: 10 // Lấy 10 hành động gần nhất
-        },
-        // auth: API_TOKEN,
-        id: 1
-    };
+// const getAuditLog = async () => {
+//     let payload = {
+//         jsonrpc: "2.0",
+//         method: "auditlog.get",
+//         params: {
+//             output: "extend",
+//             // sortfield: "clock",
+//             sortorder: "DESC",
+//             limit: 10 // Lấy 10 hành động gần nhất
+//         },
+//         // auth: API_TOKEN,
+//         id: 1
+//     };
     
-    let response = await fetch(ZABBIX_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
-            'Authorization': API_TOKEN
-        },
-        body: JSON.stringify(payload)
-    });
+//     let response = await fetch(ZABBIX_URL, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+//             'Authorization': API_TOKEN
+//         },
+//         body: JSON.stringify(payload)
+//     });
 
-    let data = await response.json();
-    let problems = data.result;
+//     let data = await response.json();
+//     let problems = data.result;
 
-    console.log("--- problems ---");
-    console.log(problems);
+//     console.log("--- problems ---");
+//     console.log(problems);
     
-};
+// };
 
-getAuditLog();
+// getAuditLog();
 
 const getBandwidthHistory = async (hostId) => {
     // BƯỚC 1: Tìm Item ID của Traffic Out (Upload) và In (Download)
@@ -437,8 +432,6 @@ const getBandwidthHistory = async (hostId) => {
     // console.log(hz);   
 };
 
-getBandwidthHistory("10084"); // Thay 10084 bằng ID host bạn muốn kiểm tra
-
 
 // Lấy lịch sử CPU, RAM
 async function callZabbix(method, params) {
@@ -472,12 +465,15 @@ async function getHistoryStats() {
         // value_type: 0=Float, 3=Unsigned Int
         const items = await callZabbix("item.get", {
             output: ["itemid", "name", "key_", "value_type", "units"],
-            hostids: "10084",
+            hostids: "10770",
             search: {
                 key_: ["system.cpu.util", "vm.memory.util"] // Tìm 2 key này
             },
             searchByAny: true
         });
+        
+        console.log(items);
+        
 
         if (items.length === 0) return console.error("Không tìm thấy Item nào!");
 
@@ -547,4 +543,3 @@ async function getHistoryStats() {
     });
 }
 
-getHistoryStats();

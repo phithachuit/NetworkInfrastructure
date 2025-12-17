@@ -50,12 +50,7 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="form-elements.html" class="nav-link">Form Elements</a></li>
-          <li class="nav-item"><a href="form-layouts.html" class="nav-link">Form Layouts</a></li>
-          <li class="nav-item"><a href="form-validation.html" class="nav-link">Form Validation</a></li>
-          <li class="nav-item"><a href="form-wizards.html" class="nav-link">Form Wizards</a></li>
-          <li class="nav-item"><a href="form-editor-code.html" class="nav-link">Code Editor</a></li>
-          <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
+          <li class="nav-item"><a href="{{ route('mail.settingMail') }}" class="nav-link">Cấu hình mail</a></li>
         </ul>
 
         {{--
