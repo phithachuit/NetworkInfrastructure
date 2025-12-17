@@ -33,6 +33,7 @@ Route::middleware(['authm'])->group(function () {
     // Mail 
     Route::get('/mail', [MailController::class, 'index'])->name('mail.index');
     Route::get('/mail/setting', [MailController::class, 'settingMail'])->name('mail.settingMail');
+    Route::post('/mail/store', [MailController::class, 'store'])->name('mail.store');
     
     
     // Check admin or owner

@@ -56,8 +56,44 @@
               <div class="pd-25 d-flex align-items-center">
                 <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
-                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ còn lại</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryAvailableValue">1 Mbps</p>
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ Mikrotik còn lại</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryAvailableValue"></p>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
+                </div>
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+            <div class="bg-br-primary rounded overflow-hidden">
+              <div class="pd-25 d-flex align-items-center">
+                <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ Zabbix còn lại</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryZabbixAvailableValue"></p>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
+                </div>
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+            <div class="bg-br-primary rounded overflow-hidden">
+              <div class="pd-25 d-flex align-items-center">
+                <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">CPU Mikrotik Core</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="cpuMikrotikValue"></p>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
+                </div>
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
+            <div class="bg-br-primary rounded overflow-hidden">
+              <div class="pd-25 d-flex align-items-center">
+                <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">CPU Zabbix Core</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="cpuZabbixValue"></p>
                   <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
                 </div>
               </div>
@@ -207,6 +243,7 @@
               <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server</h6>
               <p class="mg-b-25">Trạng thái server hiện tại.</p>
 
+              <div id="mikrotik">
               <label class="tx-12 tx-gray-600 mg-b-10" id="cpuUtilizationText">CPU Utilization</label>
               <div class="progress ht-5 mg-b-10" id="cpuUtilization">
                 <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -215,6 +252,19 @@
               <label class="tx-12 tx-gray-600 mg-b-10" id="memoryUtilizationText">Memory Utilization</label>
               <div class="progress ht-5 mg-b-10" id="memoryUtilization">
                 <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              </div>
+
+              <div id="zabbix">
+              <label class="tx-12 tx-gray-600 mg-b-10" id="cpuUtilizationText">CPU Utilization</label>
+              <div class="progress ht-5 mg-b-10" id="cpuUtilization">
+                <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+
+              <label class="tx-12 tx-gray-600 mg-b-10" id="memoryUtilizationText">Memory Utilization</label>
+              <div class="progress ht-5 mg-b-10" id="memoryUtilization">
+                <div class="progress-bar bg-teal wd-100p" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
               </div>
 
               <!-- <label class="tx-12 tx-gray-600 mg-b-10" id="memoryAvailableText">Memory Available</label>

@@ -22,7 +22,7 @@
 
       <div class="br-pagebody">
         <div class="br-section-wrapper">
-            <form action="" method="POST">
+            <form action="{{ route('mail.store') }}" method="POST">
                 @csrf
                 <div class="form-layout form-layout-1">
                     <div class="row mg-b-25">
@@ -36,7 +36,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                             <label class="form-control-label">SMTP port: <span class="tx-danger">*</span></label>
-                            <input class="form-control" type="text" name="smtpport" id="smtpport" placeholder="SMTP port">
+                            <input class="form-control" type="number" name="smtpport" id="smtpport" placeholder="SMTP port">
                             </div>
                         </div><!-- col-4 -->
 
@@ -56,13 +56,13 @@
                         
                         <div class="col-lg-4">
                             <div class="form-group">
-                            <label class="form-control-label">Gửi tới <span class="tx-danger">*</span></label>
+                            <label class="form-control-label">Gửi tới: <span class="tx-danger">*</span></label>
                             <input class="form-control" type="email" name="mailto" id="mailto" placeholder="Gửi tới">
                             </div>
                         </div><!-- col-4 -->
 
                         @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="col-lg-12 alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>

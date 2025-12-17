@@ -40,7 +40,7 @@ async function getZabbixHosts() {
         }
 
         // Thành công! Dữ liệu nằm trong data.result
-        console.log("Danh sách thiết bị:", data.result);
+        // console.log("Danh sách thiết bị:", data.result);
 
         return data.result;
 
@@ -49,22 +49,13 @@ async function getZabbixHosts() {
     }
 }
 
-// Gọi hàm
-// getZabbixHosts();
-
-
-// const CPU = document.getElementById('CPU');
-// const CPUText = document.getElementById('CPU-text');
-// const MemoryText = document.getElementById('Memory-text');
-// const Memory = document.getElementById('Memory');
-
-const getSystemStats = async () => {
+const getSystemStats = async (hostid) => {
     const payload = {
         jsonrpc: "2.0",
         method: "item.get",
         params: {
             output: ["itemid", "name", "key_", "lastvalue", "units"], // Chỉ lấy các trường này
-            hostids: "10770", // ID của host bạn muốn xem (10084 thường là Zabbix Server)
+            hostids: hostid, // ID của host bạn muốn xem (10084 thường là Zabbix Server)
             search: {
                 //key_: "system.cpu.util" // Tìm tất cả item có chữ "system.cpu" trong key
                 // name: "CPU utilization"
@@ -79,10 +70,10 @@ const getSystemStats = async () => {
         const response = await fetch(ZABBIX_URL, {
             method: 'POST', // Zabbix luôn dùng POST
             headers: {
-                'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+                'Content-Type': 'application/json-rpc', 
                 'Authorization': API_TOKEN
             },
-            body: JSON.stringify(payload) // Fetch không tự stringify như Axios
+            body: JSON.stringify(payload) 
         });
 
         // 1. Kiểm tra lỗi mạng (HTTP Status khác 200-299)
@@ -142,7 +133,7 @@ const getAlertLogs = async () => {
             // sortfield: "clock",
             sortorder: "DESC",
             limit: 100, // Lấy 100 lỗi mới nhất
-            severities: [1,2,3, 4, 5] // BỎ COMMENT dòng này nếu chỉ muốn lấy lỗi Cao/Thảm họa
+            severities: [1,2,3, 4, 5] 
         },
         id: 1
     };
@@ -150,7 +141,7 @@ const getAlertLogs = async () => {
     let response = await fetch(ZABBIX_URL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json-rpc', // Hoặc 'application/json'
+            'Content-Type': 'application/json-rpc',
             'Authorization': API_TOKEN
         },
         body: JSON.stringify(payload)
@@ -204,17 +195,28 @@ document.addEventListener('DOMContentLoaded', function() {
     getAlertLogs();
     
     // get list server status
-    const cpuUtilizationText = document.getElementById('cpuUtilizationText');
-    const cpuUtilization = document.getElementById('cpuUtilization');
-    const memoryUtilizationText = document.getElementById('memoryUtilizationText');
-    const memoryUtilization = document.querySelector('#memoryUtilization');
+    const cpuUtilizationText = document.querySelector('#mikrotik #cpuUtilizationText');
+    const cpuUtilization = document.querySelector('#mikrotik #cpuUtilization');
+    const memoryUtilizationText = document.querySelector('#mikrotik #memoryUtilizationText');
+    const memoryUtilization = document.querySelector('#mikrotik #memoryUtilization');
+
+    const zabbixCpuUtilizationText = document.querySelector('#zabbix #cpuUtilizationText');
+    const zabbixCpuUtilization = document.querySelector('#zabbix #cpuUtilization');
+    const zabbixMemoryUtilizationText = document.querySelector('#zabbix #memoryUtilizationText');
+    const zabbixMemoryUtilization = document.querySelector('#zabbix #memoryUtilization');
+
     const memoryAvailableText = document.querySelector('#memoryAvailableText');
     const memoryAvailable = document.querySelector('#memoryAvailable');
     const memoryAvailableValue = document.querySelector('#memoryAvailableValue');
 
-    getSystemStats()
+    getSystemStats(10770)
         .then((items) => {
             if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
+
+
+            let totalMemory = 0;
+            let usedMemory = 0;
+            let availableMemory = 0;
 
             items.forEach((item) => {
                 console.log(item);
@@ -225,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         let float = parseFloat(item.lastvalue).toFixed(2);
                         let int = parseInt(item.lastvalue);                        
 
-                        cpuUtilizationText.innerText = `CPU Utilization (${float}%)`;
+                        cpuUtilizationText.innerText = `CPU Mikrotik Utilization (${float}%)`;
 
                         let progressBar = cpuUtilization.querySelector('.progress-bar');
                         if (progressBar) {
@@ -245,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         let float = parseFloat(item.lastvalue).toFixed(2);
                         let int = parseInt(item.lastvalue);
 
-                        memoryUtilizationText.innerText = `Memory Utilization (${float}%)`;
+                        memoryUtilizationText.innerText = `Memory Mikrotik Utilization (${float}%)`;
 
                         let progressBar = memoryUtilization.querySelector('.progress-bar');
                         if (progressBar) {
@@ -262,15 +264,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // Xử lý Memory
-                // if (item.name === 'Available memory') {
-                //     let float = parseFloat(item.lastvalue / 1024**3).toFixed(2);
-                //     memoryAvailableValue.innerText = `${float} GB`;
-                // }
+                const cpuMikrotikValue = document.querySelector("#cpuMikrotikValue");
+                const memoryMikrotikAvailableValue = document.querySelector("#memoryMikrotikAvailableValue");
+                
+                if (item.name === 'Number of CPUs') {
+                    if(cpuMikrotikValue) {
+                        cpuMikrotikValue.innerText = item.lastvalue;
+                    }
+                }
 
-                let totalMemory = 0;
-                let usedMemory = 0;
-                let availableMemory = 0;
+                if (item.name === 'Available memory') {
+                    if(memoryMikrotikAvailableValue) {
+                        memoryMikrotikAvailableValue.innerText = `${(item.lastvalue / 1024**3).toFixed(2)} GB`;
+                    }
+                }
 
                 if(item.key_ === 'vm.memory.total[hrStorageSize.Memory]'){
                     totalMemory = item.lastvalue;
@@ -279,12 +286,89 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(item.key_ === 'vm.memory.used[hrStorageUsed.Memory]'){
                     usedMemory = item.lastvalue;
                 }
-
-                availableMemory = parseFloat(totalMemory) - parseFloat(usedMemory);
-                console.log(availableMemory);
                 
+            });
+            // Tính toán phần khả dụng
+            availableMemory = (parseFloat(totalMemory) - parseFloat(usedMemory)) / 1024**3;
+            memoryAvailableValue.innerText = `${parseFloat(availableMemory).toFixed(2)} GB`;
+        })
+        .catch((error) => {
+            console.error("Lỗi khi lấy thông tin hệ thống:", error);
+        });
 
-                memoryAvailableValue.innerText = `${parseFloat(availableMemory / 1024).toFixed(2)} GB`;
+        // Zabbix
+        getSystemStats(10084)
+        .then((items) => {
+            if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
+
+            items.forEach((item) => {
+                // console.log(item);
+                
+                // Xử lý CPU
+                if (item.name === "CPU utilization") {
+                    if (zabbixCpuUtilizationText && zabbixCpuUtilization) {
+                        let float = parseFloat(item.lastvalue).toFixed(2);
+                        let int = parseInt(item.lastvalue);                        
+
+                        zabbixCpuUtilizationText.innerText = `CPU Zabbix Utilization (${float}%)`;
+
+                        let progressBar = zabbixCpuUtilization.querySelector('.progress-bar');
+                        if (progressBar) {
+                            // --- ĐOẠN SỬA ---
+                            // Không xóa class gốc để giữ màu sắc/style
+                            // Dùng style.width để set chính xác %
+                            progressBar.style.width = `${int}%`; 
+                            progressBar.setAttribute('aria-valuenow', int);
+                        }
+                    }
+                }
+
+                // Xử lý Memory
+                if (item.name === 'Memory utilization') {
+                    if (zabbixMemoryUtilizationText && zabbixMemoryUtilization) {
+                        let float = parseFloat(item.lastvalue).toFixed(2);
+                        let int = parseInt(item.lastvalue);
+                        
+                        zabbixMemoryUtilizationText.innerText = `Memory Zabbix Utilization (${float}%)`;
+                        
+                        let progressBar = zabbixMemoryUtilization.querySelector('.progress-bar');
+                        if (progressBar) {
+                            // --- ĐOẠN SỬA ---
+                            // Đảm bảo class nền (bg-teal) không bị mất
+                            // Nếu bạn reset className = '...', nó sẽ mất style mặc định
+                            if (!progressBar.classList.contains('bg-teal')) {
+                                progressBar.classList.add('bg-teal');
+                            }
+                            
+                            progressBar.style.width = `${int}%`;
+                            progressBar.setAttribute('aria-valuenow', int);
+                        }
+                    }
+                }
+
+                const cpuZabbixValue = document.querySelector("#cpuZabbixValue");
+                const memoryZabbixAvailableValue = document.querySelector("#memoryZabbixAvailableValue");
+                
+                if (item.name === 'Number of CPUs') {
+                    if(cpuZabbixValue) {
+                        cpuZabbixValue.innerText = item.lastvalue;
+                    }
+                }
+
+                if (item.name === 'Available memory') {
+                    if(memoryZabbixAvailableValue) {
+                        memoryZabbixAvailableValue.innerText = `${(item.lastvalue / 1024**3).toFixed(2)} GB`;
+                    }
+                }
+
+                if(item.key_ === 'vm.memory.total[hrStorageSize.Memory]'){
+                    totalMemory = item.lastvalue;
+                }
+
+                if(item.key_ === 'vm.memory.used[hrStorageUsed.Memory]'){
+                    usedMemory = item.lastvalue;
+                }
+                
             });
         })
         .catch((error) => {
@@ -318,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getHistoryStats();
 
         // Lịch sử tốc độ mạng 10770 mikrotik
-        getBandwidthHistory("10770"); // Thay 10084 bằng ID host bạn muốn kiểm tra
+        getBandwidthHistory(10770); // Thay 10084 bằng ID host bạn muốn kiểm tra
 });
 
 // Lấy log user tác động
@@ -472,12 +556,10 @@ async function getHistoryStats() {
             searchByAny: true
         });
         
-        console.log(items);
-        
+        // console.log(items);
 
         if (items.length === 0) return console.error("Không tìm thấy Item nào!");
 
-        
 
         // Bước 2: Lặp qua từng Item để lấy lịch sử
         for (const item of items) {
@@ -489,28 +571,30 @@ async function getHistoryStats() {
                 itemids: item.itemid,
                 sortfield: "clock",
                 sortorder: "DESC", // Mới nhất lấy trước
-                limit: 10 // Lấy 10 dòng dữ liệu gần nhất
+                limit: 20 // Lấy 10 dòng dữ liệu gần nhất
             });
 
             // In kết quả
             historyData.forEach(h => {
-                const time = new Date(h.clock * 1000).toLocaleString();
+                // const time = new Date(h.clock * 1000).toLocaleString();
                 let value = parseFloat(h.value);
-
-                if(item.key_ == "system.cpu.util") {
-                    arrayNumber.push(h.value)
-                }
-
-                if(item.key_ == "vm.memory.utilization") {
-                    arrayNumberMemory.push(h.value)
-                }
 
                 // Nếu là RAM (Bytes) thì đổi sang GB cho dễ nhìn
                 if (item.units === "B") {
-                    value = (value / 1073741824).toFixed(2) + " GB";
+                    value = (value / 1073741824).toFixed(2);
                 } else {
-                    value = value.toFixed(2) + " %";
+                    value = value.toFixed(2);
                 }
+
+                if(item.key_ == "system.cpu.util[hrProcessorLoad.1]") {
+                    arrayNumber.push(value)
+                }
+
+                if(item.key_ == "vm.memory.util[memoryUsedPercentage.Memory]") {
+                    arrayNumberMemory.push(value)
+                }
+
+                // console.log(value);
 
                 // console.log(`[${time}] Giá trị: ${value}`);
             });
@@ -521,8 +605,8 @@ async function getHistoryStats() {
     }
 
     new Chartist.Line('#ch1', {
-    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    series: [
+        // labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        series: [
         //   [4, 9, 7, 8, 5, 3, 5, 4],
         //   [10, 15, 10, 17, 8, 11, 16, 10]
             arrayNumber,
@@ -539,7 +623,15 @@ async function getHistoryStats() {
         chartPadding: {
             bottom: 0,
             left: 0
-        }
+        },
+        // --- PHẦN ĐƯỢC THÊM VÀO ---
+        plugins: [
+            Chartist.plugins.tooltip({
+                appendToBody: true,    // Giúp tooltip không bị che khuất
+                anchorToPoint: true,   // Tooltip dính chặt vào điểm
+                class: 'ct-tooltip'    // Class mặc định để style
+            })
+        ]
     });
 }
 
