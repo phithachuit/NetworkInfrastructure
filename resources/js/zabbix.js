@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let availableMemory = 0;
 
             items.forEach((item) => {
-                console.log(item);
+                // console.log(item);
                 
                 // Xử lý CPU
                 if (item.name === "#1: CPU utilization") {
