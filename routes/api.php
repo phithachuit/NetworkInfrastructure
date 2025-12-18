@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/savelog', [DashboardController::class, 'saveLog'])->name('dashboard.saveLog.api');
+Route::get('/getloglist', [DashboardController::class, 'getLogList'])->name('dashboard.getloglist.api');

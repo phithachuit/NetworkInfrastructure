@@ -142,4 +142,47 @@ class GeminiController extends Controller
         $chatBotModel = new ChatBotModel();
         $chatBotModel->saveMessage($sender, $data);
     }
+
+    public function sendDiagnose($data) {
+        // dd($data);
+        return $data;
+
+        // 1. Xây dựng Prompt (Câu lệnh cho AI)
+        // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
+        $systemInstruction = "Bạn là một chuyên gia phân tích, cảnh báo rủi ro tiềm ẩn. " .
+                             "Nhiệm vụ: Giải thích thật ngắn gọn, tập trung trọng tâm. Đưa ra các rủi ro tiềm ẩn, khả năng xảy ra những rủi ro nào tiếp theo trong tương lai" .
+                             "Cố gắng cảnh báo thật đúng trọng tâm.";
+
+        $prompt = "Hệ thống đang gặp vấn đề gì? Đây là các dòng log từ hệ thống: '{$data}'. \n";
+    
+        // 2. Cấu trúc Request theo chuẩn Gemini API
+        $payload = [
+            "contents" => [
+                [
+                    "parts" => [
+                        ["text" => $systemInstruction . "\n\n" . $prompt]
+                    ]
+                ]
+            ]
+        ];
+
+        // 3. Gửi Request
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post("{$this->baseUrl}?key={$this->apiKey}", $payload);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                // Lấy nội dung text từ phản hồi phức tạp của Google
+                return $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Không có phản hồi.';
+            } else {
+                Log::error('Gemini API Error: ' . $response->body());
+                return "Hệ thống đang bận, vui lòng thử lại sau.";
+            }
+        } catch (\Exception $e) {
+            Log::error('Gemini Exception: ' . $e->getMessage());
+            return "Lỗi kết nối đến máy chủ AI.";
+        }
+    }
 }

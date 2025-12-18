@@ -54,7 +54,7 @@
           <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
             <div class="bg-br-primary rounded overflow-hidden">
               <div class="pd-25 d-flex align-items-center">
-                <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                <i class="bi bi-memory tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ Mikrotik còn lại</p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryAvailableValue"></p>
@@ -66,10 +66,22 @@
           <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0 mt-4">
             <div class="bg-br-primary rounded overflow-hidden">
               <div class="pd-25 d-flex align-items-center">
-                <i class="ion ion-clock tx-60 lh-0 tx-white op-7"></i>
+                <i class="bi bi-memory tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ Zabbix còn lại</p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryZabbixAvailableValue"></p>
+                  <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
+                </div>
+              </div>
+            </div>
+          </div><!-- col-3 -->
+          <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0 mt-4">
+            <div class="bg-br-primary rounded overflow-hidden">
+              <div class="pd-25 d-flex align-items-center">
+                <i class="bi bi-memory tx-60 lh-0 tx-white op-7"></i>
+                <div class="mg-l-20">
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Bộ nhớ Fortinet còn lại</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="memoryFortinetAvailableValue"></p>
                   <!-- <span class="tx-11 tx-roboto tx-white-6">65.45% on average time</span> -->
                 </div>
               </div>
@@ -113,8 +125,6 @@
           </div><!-- col-3 -->--}}
         </div><!-- row -->
 
-
-
         <div class="row row-sm mg-t-20">
           <div class="col-8">
             <!-- Log demo -->
@@ -151,6 +161,20 @@
               </div>
               <div class="pd-x-15 pd-b-15">
                 <div id="ch1" class="br-chartist br-chartist-2 ht-200 ht-sm-300"></div>
+              </div>
+            </div><!-- card -->
+
+            <!-- Log demo -->
+            <div class="card pd-0 bd-0 shadow-base mt-3">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Dự báo</h6>
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15">
+                <!-- Log items will be appended here by zabbix.js -->
               </div>
             </div><!-- card -->
 

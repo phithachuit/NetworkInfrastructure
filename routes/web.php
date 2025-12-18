@@ -22,10 +22,15 @@ use App\Http\Controllers\MailController;
 Route::middleware(['authm'])->group(function () {
     // dashboard route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/t', [DashboardController::class, 'diagnose'])->name('diagnose');
+
+    // save log alert
+    Route::post('/savelog', [DashboardController::class, 'saveLog'])->name('dashboard.saveLog');
 
     // send message to chatbot
     Route::get('/chatbot/send', [GeminiController::class, 'getMessage'])->name('chatbot.get');
     Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
+
     
     // user route
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -34,6 +39,9 @@ Route::middleware(['authm'])->group(function () {
     Route::get('/mail', [MailController::class, 'index'])->name('mail.index');
     Route::get('/mail/setting', [MailController::class, 'settingMail'])->name('mail.settingMail');
     Route::post('/mail/store', [MailController::class, 'store'])->name('mail.store');
+
+
+    
     
     
     // Check admin or owner

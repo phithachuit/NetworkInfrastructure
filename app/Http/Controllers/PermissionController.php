@@ -34,6 +34,7 @@ class PermissionController extends Controller
     public function fakepermission(PermissionModel $permissionModel)
     {
         $permissionModel->initPermissions();
+        return redirect()->route('fakeuser');
     }
 
     /**

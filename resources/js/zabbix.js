@@ -1,5 +1,5 @@
 // Cấu hình
-const ZABBIX_URL = 'http://192.168.1.28/api_jsonrpc.php';
+const ZABBIX_URL = 'http://192.168.1.25:8080/api_jsonrpc.php';
 const API_TOKEN = 'Bearer 1deefb76b969768141cf095671111a85a60cc8962e353f8c87129e534121a0cc'; // Lấy trong Zabbix Admin
 
 async function getZabbixHosts() {
@@ -180,6 +180,19 @@ const getAlertLogs = async () => {
 
         let time = new Date(p.clock * 1000).toLocaleString();
         // console.log(`[${time}] [${level}] ${p.name}`);
+
+        // save log
+        fetch('api/savelog', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                severity: p.severity,
+                name: p.name,
+                eventid: p.eventid
+            })
+        });
 
         html += `<div class="alert alert-${classLevel} mg-b-1" role="alert">
                     <strong>[${level}]</strong> ${p.name} <br/>
@@ -375,6 +388,28 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("Lỗi khi lấy thông tin hệ thống:", error);
         });
 
+        // Fortinet
+        getSystemStats(10778)
+        .then((items) => {
+            if (!items || !Array.isArray(items)) return; // Kiểm tra dữ liệu đầu vào
+
+            const memoryFortinetAvailableValue =  document.querySelector("#memoryFortinetAvailableValue");
+
+            items.forEach((item) => {
+                // console.log(item);
+                
+                // Xử lý Memory Fortinet
+                if (item.name === 'Available memory') {
+                    if (memoryFortinetAvailableValue) {
+                        memoryFortinetAvailableValue.innerText = `${(item.lastvalue / 1024**3).toFixed(2)} GB`;
+                    }
+                }
+            });
+        })
+        .catch((error) => {
+            console.error("Lỗi khi lấy thông tin hệ thống:", error);
+        });
+
         // Lấy danh sách thiết bị
         getZabbixHosts()
         .then((items) => {
@@ -403,6 +438,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Lịch sử tốc độ mạng 10770 mikrotik
         getBandwidthHistory(10770); // Thay 10084 bằng ID host bạn muốn kiểm tra
+
+
+        // GET request for remote image in node.js
+        axios.get('api/getloglist')
+        .then(function (response) {
+            // handle success
+            response.data.forEach(item => {
+                console.log(item);
+            });
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        });
+
 });
 
 // Lấy log user tác động
