@@ -1,6 +1,6 @@
 
 @extends('template.index')
-@section('title', "Dashboard")
+@section('title', "Danh sách người dùng")
 @extends('template.panelLeft')
 @extends('template.panelHead')
 
@@ -16,13 +16,13 @@
     </nav>
     </div><!-- br-pageheader --> --}}
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Danh sách tài khoản</h4>
+    <h4 class="tx-gray-800 mg-b-5">Danh sách người dùng</h4>
     <!-- <p class="mg-b-0">A collection basic to advanced table design that you can use to your data.</p> -->
      
     </div>
 
     <div class="br-pagebody">
-        <a href="{{ route('user.create') }}" class="btn btn-primary">Thêm tài khoản</a>
+        <a href="{{ route('user.create') }}" class="btn btn-primary">Thêm người dùng</a>
 
     <div class="br-section-wrapper">
         <div class="bd bd-gray-300 rounded table-responsive">
@@ -32,7 +32,7 @@
                 <th>Mã số</th>
                 <th>Email</th>
                 <th>Tên</th>
-                <th>Quyền</th>
+                <th>Nhóm</th>
                 <th>Trạng thái</th>
             </tr>
             </thead>

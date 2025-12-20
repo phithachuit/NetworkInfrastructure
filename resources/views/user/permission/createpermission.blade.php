@@ -65,7 +65,6 @@
 
             <div class="form-layout-footer">
               <button class="btn btn-primary">OK</button>
-              <button class="btn btn-secondary">Reset</button>
             </div><!-- form-layout-footer -->
           </div><!-- form-layout -->
         </div>

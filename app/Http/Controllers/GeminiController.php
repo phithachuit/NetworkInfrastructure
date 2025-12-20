@@ -143,17 +143,14 @@ class GeminiController extends Controller
         $chatBotModel->saveMessage($sender, $data);
     }
 
-    public function sendDiagnose($data) {
-        // dd($data);
-        return $data;
-
+    public function askDiagnose($ask) {
         // 1. Xây dựng Prompt (Câu lệnh cho AI)
         // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
         $systemInstruction = "Bạn là một chuyên gia phân tích, cảnh báo rủi ro tiềm ẩn. " .
                              "Nhiệm vụ: Giải thích thật ngắn gọn, tập trung trọng tâm. Đưa ra các rủi ro tiềm ẩn, khả năng xảy ra những rủi ro nào tiếp theo trong tương lai" .
                              "Cố gắng cảnh báo thật đúng trọng tâm.";
 
-        $prompt = "Hệ thống đang gặp vấn đề gì? Đây là các dòng log từ hệ thống: '{$data}'. \n";
+        $prompt = "Hệ thống đang gặp vấn đề gì? Đây là các dòng log từ hệ thống: '{$ask}'. \n";
     
         // 2. Cấu trúc Request theo chuẩn Gemini API
         $payload = [
@@ -184,5 +181,27 @@ class GeminiController extends Controller
             Log::error('Gemini Exception: ' . $e->getMessage());
             return "Lỗi kết nối đến máy chủ AI.";
         }
+    }
+
+    public function sendDiagnose($data) {
+        // return $data;
+
+        // return response()->json([
+        //     'reply' => 'alo'
+        // ]);
+
+        $botReply = $this->askDiagnose($data);
+
+        // Try to convert Markdown to HTML if the helper exists; fallback to raw reply on error
+        try {
+            $htmlContent = Str::markdown($botReply);
+        } catch (\Throwable $e) {
+            Log::error('Markdown conversion failed: ' . $e->getMessage());
+            $htmlContent = $botReply;
+        }
+
+        return response()->json([
+            'reply' => $htmlContent
+        ]);
     }
 }

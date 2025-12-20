@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/savelog', [DashboardController::class, 'saveLog'])->name('dashboard.saveLog.api');
-Route::get('/getloglist', [DashboardController::class, 'getLogList'])->name('dashboard.getloglist.api');
+Route::get('/getloglist', [DashboardController::class, 'diagnose'])->name('dashboard.getloglist.api');

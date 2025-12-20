@@ -440,23 +440,39 @@ document.addEventListener('DOMContentLoaded', function() {
         getBandwidthHistory(10770); // Thay 10084 bằng ID host bạn muốn kiểm tra
 
 
-        // GET request for remote image in node.js
-        axios.get('api/getloglist')
-        .then(function (response) {
-            // handle success
-            response.data.forEach(item => {
-                console.log(item);
-            });
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        .finally(function () {
-            // always executed
-        });
+        const btnDiagnose = document.querySelector("#btnDiagnose");
 
+        btnDiagnose.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('ok');
+
+            let diagnose = document.querySelector("#diagnose");
+
+            // diagnose
+            axios.get('api/getloglist')
+                .then(function (response) {
+                    // diagnose.innerText = "Đang phân tích...";
+
+                    if(response.data.original.reply !== "") {
+                        // handle success
+                        diagnose.innerHTML = response.data.original.reply;
+                        let t = response.data;
+                        t = t.original.reply;
+                        // console.log(t);
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .finally(function () {
+                    // always executed
+                });
+            
+        });
 });
+
+
 
 // Lấy log user tác động
 // const getAuditLog = async () => {

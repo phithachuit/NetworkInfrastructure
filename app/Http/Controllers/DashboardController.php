@@ -53,18 +53,18 @@ class DashboardController extends Controller
     public function saveLog(Request $request) {
       // dd($request);
       $data = $request->only('severity', 'name', 'eventid');
-      LogAlertModel::createOrIgnore($data);
+      LogAlertModel::insertOrIgnore($data);
     }
 
     public function getLogList() {
-      return LogAlertModel::select('name')->get()->toArray();
+      return LogAlertModel::select('name')->get()->toJson();
     }
 
     public function diagnose() {
         $geminiController = new GeminiController;
         $getAllLog = $this->getLogList();
 
-        $test = $geminiController->sendDiagnose($getAllLog);
+        $reply = $geminiController->sendDiagnose($getAllLog);
         // $test = [
         //   [
         //     "name" => 'w'
@@ -84,7 +84,7 @@ class DashboardController extends Controller
         //   }
         // }
 
-        dd($test);
+        return response()->json($reply);
     }
 
     /**
