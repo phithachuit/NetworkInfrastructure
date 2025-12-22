@@ -21,7 +21,7 @@
                 <i class="bi bi-info-circle tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Thông báo</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['notice'] ?? 0 }}</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="countInfo">0</p>
                   <!-- <span class="tx-11 tx-roboto tx-white-6">24% higher yesterday</span> -->
                 </div>
               </div>
@@ -33,7 +33,7 @@
                 <i class="ion ion-minus-circled tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Quan trọng</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['critical'] ?? 0 }}</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="countDanger">0</p>
                   <!-- <span class="tx-11 tx-roboto tx-white-6">$390,212 before tax</span> -->
                 </div>
               </div>
@@ -45,7 +45,7 @@
                 <i class="bi bi-exclamation-triangle tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
                   <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Cảnh báo</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{ $count['warning'] ?? 0 }}</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1" id="countWaring">0</p>
                   <!-- <span class="tx-11 tx-roboto tx-white-6">23% average duration</span> -->
                 </div>
               </div>
