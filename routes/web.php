@@ -8,6 +8,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\GeminiController;
 use App\Http\Controllers\MailController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +79,8 @@ Route::middleware(['authm'])->group(function () {
         
     });
 });
+
+Route::get('/sendmail', [MailController::class, 'sendmail'])->name('mail.sendmail');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post'); 

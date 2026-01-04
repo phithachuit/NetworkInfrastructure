@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\AlertMail;
 
 class MailController extends Controller
 {
@@ -41,5 +43,9 @@ class MailController extends Controller
         //     'permission_active' => $request->input('permission_active'),
         // ]) ? redirect()->route('permission.index')->withSuccess('Thêm nhóm thành công') 
         //   : redirect()->back()->withErrors('Thêm nhóm thất bại');
+    }
+
+    public function sendmail(){
+        Mail::to('lephithach00@gmail.com')->send(new AlertMail());
     }
 }
