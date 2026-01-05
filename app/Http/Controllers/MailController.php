@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\AlertMail;
+use App\Models\LogAlertModel;
+use App\Models\MailModel;
 
 class MailController extends Controller
 {
+
+
     public function index() {
-        return view('mail.maillist');
+        $data = MailModel::orderByDesc('created_at')->get();
+        return view('mail.maillist', compact('data'));
     }
 
     public function settingMail() {
         return view('mail.mailsetting');
+    }
+
+    public function show($id){
+        $data = MailModel::orderByDesc('created_at')->get();
+        // $showMail = MailModel::where('id', $id)->get()->toArray();
+        $showMail = MailModel::find($id);
+        return view('mail.maillist', compact('showMail', 'data'));
     }
 
     public function store(Request $request) {
@@ -46,6 +58,16 @@ class MailController extends Controller
     }
 
     public function sendmail(){
-        Mail::to('lephithach00@gmail.com')->send(new AlertMail());
+        $content = LogAlertModel::get()->last()->toArray();
+
+        if(!$content['mail_sent']) {
+            // send mail
+            Mail::to('lephithach00@gmail.com')->send(new AlertMail($content['name']));
+
+            // update status mail
+            LogAlertModel::where('id', $content['id'])->update(['mail_sent' => true]);
+        }
+
+        // dd(LogAlertModel::where('id', $content['id'])->update(['mail_sent' => false]));
     }
 }

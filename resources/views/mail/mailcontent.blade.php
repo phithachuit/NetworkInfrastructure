@@ -6,6 +6,8 @@
     <title>Mail</title>
 </head>
 <body>
-    <h1>Alert</h1>
+    <h3>Thông tin từ hệ thống</h1>
+    <p>{{ $messageContent }}</p>
+    <p>Vui lòng truy cập vào hệ thống để kiểm tra</p>
 </body>
 </html>

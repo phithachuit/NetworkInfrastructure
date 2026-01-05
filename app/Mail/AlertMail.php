@@ -13,14 +13,16 @@ class AlertMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $messageContent;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($content = 'test')
     {
-        //
+        $this->messageContent = $content;
     }
 
     /**
@@ -31,7 +33,7 @@ class AlertMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Alert Mail',
+            subject: 'Cảnh báo',
         );
     }
 

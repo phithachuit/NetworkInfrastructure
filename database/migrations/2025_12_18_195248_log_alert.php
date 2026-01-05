@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('eventid')->unique();
             $table->text('name');
             $table->string('severity', 2);
+            $table->boolean('mail_sent')->default(false);
             $table->timestamps();
         });
     }

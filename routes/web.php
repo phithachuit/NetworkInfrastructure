@@ -39,6 +39,7 @@ Route::middleware(['authm'])->group(function () {
     // Mail 
     Route::get('/mail', [MailController::class, 'index'])->name('mail.index');
     Route::get('/mail/setting', [MailController::class, 'settingMail'])->name('mail.settingMail');
+    Route::get('/mail/{id}', [MailController::class, 'show'])->name('mail.show');
     Route::post('/mail/store', [MailController::class, 'store'])->name('mail.store');
 
 
