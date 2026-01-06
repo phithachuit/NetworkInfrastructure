@@ -32,6 +32,8 @@ Route::middleware(['authm'])->group(function () {
     Route::get('/chatbot/send', [GeminiController::class, 'getMessage'])->name('chatbot.get');
     Route::post('/chatbot/send', [GeminiController::class, 'sendMessage'])->name('chatbot.send');
 
+    Route::get('/sendMailDiagnose', [GeminiController::class, 'sendMailDiagnose'])->name('sendMailDiagnose');
+
     
     // user route
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -41,9 +43,6 @@ Route::middleware(['authm'])->group(function () {
     Route::get('/mail/setting', [MailController::class, 'settingMail'])->name('mail.settingMail');
     Route::get('/mail/{id}', [MailController::class, 'show'])->name('mail.show');
     Route::post('/mail/store', [MailController::class, 'store'])->name('mail.store');
-
-
-    
     
     
     // Check admin or owner
@@ -82,6 +81,7 @@ Route::middleware(['authm'])->group(function () {
 });
 
 Route::get('/sendmail', [MailController::class, 'sendmail'])->name('mail.sendmail');
+Route::get('/sendmailtest', [MailController::class, 'sendMailTest'])->name('mail.sendmailtest');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post'); 

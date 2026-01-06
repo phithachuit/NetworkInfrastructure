@@ -143,6 +143,7 @@ class GeminiController extends Controller
         $chatBotModel->saveMessage($sender, $data);
     }
 
+    // Dự báo
     public function askDiagnose($ask) {
         // 1. Xây dựng Prompt (Câu lệnh cho AI)
         // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
@@ -203,5 +204,70 @@ class GeminiController extends Controller
         return response()->json([
             'reply' => $htmlContent
         ]);
+    }
+
+    public function mailDiagnose($ask){
+        // 1. Xây dựng Prompt (Câu lệnh cho AI)
+        // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
+        $systemInstruction = "Bạn là một chuyên gia mạng, phân tích và hướng dẫn. " .
+                             "Nhiệm vụ: Giải thích lỗi đang xảy ra. Đưa ra cách giải quyết và hướng dẫn người dùng làm theo để khắc phục" .
+                             "Cố gắng hướng dẫn đúng trọng tâm.";
+
+        $prompt = "Hệ thống đang gặp vấn đề: '{$ask}'. \n";
+    
+        // 2. Cấu trúc Request theo chuẩn Gemini API
+        $payload = [
+            "contents" => [
+                [
+                    "parts" => [
+                        ["text" => $systemInstruction . "\n\n" . $prompt]
+                    ]
+                ]
+            ]
+        ];
+
+        // 3. Gửi Request
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post("{$this->baseUrl}?key={$this->apiKey}", $payload);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                // Lấy nội dung text từ phản hồi phức tạp của Google
+                return $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Không có phản hồi.';
+            } else {
+                Log::error('Gemini API Error: ' . $response->body());
+                return "Hệ thống đang bận, vui lòng thử lại sau.";
+            }
+        } catch (\Exception $e) {
+            Log::error('Gemini Exception: ' . $e->getMessage());
+            return "Lỗi kết nối đến máy chủ AI.";
+        }
+    }
+
+    public function sendMailDiagnose($data) {
+
+        $botReply = $this->mailDiagnose($data);
+
+        // Try to convert Markdown to HTML if the helper exists; fallback to raw reply on error
+        try {
+            $htmlContent = Str::markdown($botReply);
+        } catch (\Throwable $e) {
+            Log::error('Markdown conversion failed: ' . $e->getMessage());
+            $htmlContent = $botReply;
+        }
+
+        // return response()->json([
+        //     'reply' => $htmlContent
+        // ]);
+
+        // return response()->json([
+        //     'reply' => 'jajaja'
+        // ]);
+
+        return [
+            'reply' => $htmlContent
+        ];
     }
 }

@@ -13,7 +13,7 @@
         <a href="" id="showMailBoxLeft" class="show-mailbox-left hidden-sm-up">
           <i class="fa fa-arrow-right"></i>
         </a>
-        <h6 class="tx-inverse mg-b-0 tx-13 tx-uppercase">Mail đã gửi <span class="tx-roboto">(2)</span></h6>
+        <h6 class="tx-inverse mg-b-0 tx-13 tx-uppercase">Mail đã gửi <span class="tx-roboto"></span></h6>
       </div><!-- br-mailbox-list-header -->
       <div class="br-mailbox-list-body">
         @foreach($data as $item)

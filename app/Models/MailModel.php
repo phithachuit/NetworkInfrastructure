@@ -12,4 +12,6 @@ class MailModel extends Model
     protected $table = 'mail_history';
     protected $primaryKey = 'id';
     public $timestamps = true;
+
+    protected $fillable = ['mailto', 'content'];
 }

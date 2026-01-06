@@ -20,7 +20,7 @@ class AlertMail extends Mailable
      *
      * @return void
      */
-    public function __construct($content = 'test')
+    public function __construct($content = '')
     {
         $this->messageContent = $content;
     }
