@@ -72,20 +72,25 @@ class MailController extends Controller
         // dd(LogAlertModel::where('id', $content['id'])->update(['mail_sent' => false]));
     }
 
+    public $itemQuery;
+
     public function sendMailTest(){
         $listItems = LogAlertModel::where('mail_sent', false)->get()->toArray();
 
         foreach($listItems as $item){            
             $geminiController = new GeminiController;
-            
-            $reply = $geminiController->sendMailDiagnose($item['name']);
+
+            $this->itemQuery .= $item['name'] . "; ";
+
+            $reply = $geminiController->sendMailDiagnose($this->itemQuery);
+
+            LogAlertModel::where('id', $item['id'])->update(['mail_sent' => true]);
 
             // dd($reply['reply']);
-            
-            // MailModel::create(['content' => $reply['reply']]);
-
             // Mail::to('lephithach00@gmail.com')->send(new AlertMail($reply['reply']));
-            Mail::to('jokivadet@gmail.com')->send(new AlertMail($reply['reply']));
         }
+        
+        Mail::to('jokivadet@gmail.com')->send(new AlertMail($reply['reply']));
+        MailModel::create(['content' => $reply['reply']]);
     }
 }

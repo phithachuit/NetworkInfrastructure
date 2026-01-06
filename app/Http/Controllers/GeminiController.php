@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 use App\Models\ChatBotModel;
 
@@ -209,8 +210,7 @@ class GeminiController extends Controller
     public function mailDiagnose($ask){
         // 1. Xây dựng Prompt (Câu lệnh cho AI)
         // Kỹ thuật này gọi là "Prompt Engineering" để định hướng AI đóng vai IT Support
-        $systemInstruction = "Bạn là một chuyên gia mạng, phân tích và hướng dẫn. " .
-                             "Nhiệm vụ: Giải thích lỗi đang xảy ra. Đưa ra cách giải quyết và hướng dẫn người dùng làm theo để khắc phục" .
+        $systemInstruction = "Nhiệm vụ của bạn: Giải thích lỗi đang xảy ra. Đưa ra cách giải quyết và hướng dẫn người dùng làm theo để khắc phục" .
                              "Cố gắng hướng dẫn đúng trọng tâm.";
 
         $prompt = "Hệ thống đang gặp vấn đề: '{$ask}'. \n";
@@ -247,7 +247,7 @@ class GeminiController extends Controller
     }
 
     public function sendMailDiagnose($data) {
-
+        set_time_limit(0);
         $botReply = $this->mailDiagnose($data);
 
         // Try to convert Markdown to HTML if the helper exists; fallback to raw reply on error
@@ -267,7 +267,7 @@ class GeminiController extends Controller
         // ]);
 
         return [
-            'reply' => $htmlContent
+            'reply' => new HtmlString($htmlContent)
         ];
     }
 }
