@@ -63,7 +63,7 @@ class User extends Authenticatable
             'email' => "lephithach00@gmail.com",
             'role' => 'admin',
             'active' => 1,
-            'password' => bcrypt("0929626424Thach")
+            'password' => bcrypt("admin")
         ]);
     }
 
